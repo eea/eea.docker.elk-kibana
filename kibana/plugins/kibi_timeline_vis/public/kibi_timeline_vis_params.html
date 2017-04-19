@@ -1,0 +1,129 @@
+<div id="kibi_timeline_vis_params" class="kibi-timeline-vis-params">
+
+  <div class="form-group">
+    <label>Groups</label></br>
+    <ul>
+      <li ng-repeat="group in vis.params.groups" class="queryOptionArea" >
+
+        <div class="header">
+          Group {{$index + 1}}
+        </div>
+
+        <div class="group-content">
+
+          <input type="hidden" ng-model="group.id" />
+
+          <div class="form-group">
+            <label>Saved search id</label>
+            <kibi-select-port required object-type="search" filterable="true" ng-model="group.savedSearchId">
+            </kibi-select-port>
+          </div>
+
+          <div class="form-group">
+            <label>Group label</label>
+            <input required ng-model="group.groupLabel" class="form-control"/>
+          </div>
+
+          <div class="form-group">
+            <label>Event label</label>
+            <div>
+             <label>
+              <input type="checkbox"
+                name="useHighlight"
+                ng-model="group.useHighlight">
+                Show highlighted terms
+                <kbn-info info="Show highlighted terms in event label."></kbn-info>
+             </label>
+            <label>
+              <input type="checkbox"
+                name="highlightFirstLabelInstance"
+                ng-model="group.invertFirstLabelInstance">
+              Emphasize first label instance
+              <kbn-info info="Cut through the clutter and make unique label values standout. When checked, the first instance of a label will be displayed with inverted colors."></kbn-info>
+              </label>
+            </div>
+            <kibi-select-port required object-type="field" index-pattern-id="group.indexPatternId" ng-model="group.labelField">
+            </kibi-select-port>
+          </div>
+
+          <div class="form-group">
+            <label>Event start date</label>
+            <kibi-select-port required object-type="field" index-pattern-id="group.indexPatternId" field-types="['date']" ng-model="group.startField">
+            </kibi-select-port>
+          </div>
+
+          <div class="form-group">
+            <label>Event end date  <span class="small_note">(Optional)</span></label>
+            <kibi-select-port object-type="field" index-pattern-id="group.indexPatternId" field-types="['date']" ng-model="group.endField">
+            </kibi-select-port>
+          </div>
+
+          <div class="form-group">
+            <label>Events number limit <span class="small_note">(Optional, default: 100)</span></label>
+            <input type="number" ng-model="group.size" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label>Order By <span class="small_note">(Optional, default: Start Field DESC)</span></label>
+            <select ng-model="group.orderBy" class="form-control">
+              <option value=""></option>
+              <option value="start.asc">Start Field ASC</option>
+              <option value="start.desc">Start Field DESC</option>
+              <option ng-if="group.endField !== ''" value="end.asc">End Field ASC</option>
+              <option ng-if="group.endField !== ''" value="end.desc">End Field DESC</option>
+            </select>
+          </div>
+
+          <div class="btn-group rightCorner">
+            <array-param-up-port index="{{ $index }}" model="vis.params.groups"></array-param-up-port>
+            <array-param-down-port index="{{ $index }}" model="vis.params.groups"></array-param-down-port>
+            <array-param-remove-port index="{{ $index }}" model="vis.params.groups"></array-param-remove-port>
+          </div>
+
+        </div>
+      </li>
+    </ul>
+    <array-param-add-port required label="group" model="vis.params.groups"></array-param-add-port>
+  </div>
+
+  <div class="vis-editor-agg-editor-advanced-toggle">
+    <a ng-click="advancedToggled = !advancedToggled || jsonError[$index].message">
+      <i aria-hidden="true" class="fa fa-caret-down"
+      ng-class="{'fa-caret-down': advancedToggled, 'fa-caret-left': !advancedToggled}"></i>
+      Advanced
+    </a>
+  </div>
+
+  <div ng-show="advancedToggled">
+    <form class="form-inline">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="vis.params.groupsOnSeparateLevels"/> Groups rendered on separate levels
+        </label>
+        <label>
+          <input type="checkbox" ng-model="vis.params.notifyDataErrors"/> Notify about errors in the data
+        </label>
+        <label>
+          <input type="checkbox" ng-model="vis.params.syncTime"/>
+          Sync application time with the timeline
+          <kbn-info info="Turn this timeline into a control. Moving and zooming the timeline will set applcation time to timeline boundaries."></kbn-info>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>On select:</label>
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="vis.params.selectValue" value="id" /> Select and filter by the object ID associated with the event
+          </label>
+          <label>
+            <input type="radio" ng-model="vis.params.selectValue" value="label" /> Select and filter by the label associated with the event
+          </label>
+          <label>
+            <input type="radio" ng-model="vis.params.selectValue" value="date" /> Select and filter by the date/range associated with the event
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>

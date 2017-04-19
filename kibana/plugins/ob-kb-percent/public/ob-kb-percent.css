@@ -1,0 +1,35 @@
+.percentview {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;
+  	flex-direction: row;
+  	align-content: space-around;
+  	align-items: center;
+}
+
+.percentview_wrapper {
+	display: flex;
+	text-align: center;
+	align-content: center;
+}
+
+.percentview_ratio {
+	display: inline-block;
+}
+
+.percentview_label {
+	display: inline-block;
+}
+
+.percentview_wrapper.top, .percentview_wrapper.bottom {
+	flex-direction: column;
+}
+
+.percentview_wrapper.top .percentview_label, .percentview_wrapper.left .percentview_label {
+	order: 0;
+}
+
+.percentview_wrapper.bottom .percentview_label, .percentview_wrapper.right .percentview_label {
+	order: 1;
+}
