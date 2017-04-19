@@ -15,8 +15,6 @@ then
   echo "server.cors.origin: ['*']" >> /kibana/config/kibana.yml   
 fi
 
-
-#if [ -n '$ENABLE_SSL' ] 
 if [ $ENABLE_SSL = "YES" ]
 then
   mkdir -p /var/ssl
