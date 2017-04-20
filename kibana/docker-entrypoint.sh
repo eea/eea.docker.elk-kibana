@@ -9,12 +9,6 @@ fi
 echo "elasticsearch.url: 'http://elasticsearch:9200'" >> /kibana/config/kibana.yml
 echo "server.host: '0.0.0.0'" >> /kibana/config/kibana.yml
 
-if [ "$ENABLE_CORS" = "YES" ]           
-then
-  echo "server.cors: true" >> /kibana/config/kibana.yml
-  echo "server.cors.origin: ['*']" >> /kibana/config/kibana.yml   
-fi
-
 if [ $ENABLE_SSL = "YES" ]
 then
   mkdir -p /var/ssl
