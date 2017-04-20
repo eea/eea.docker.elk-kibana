@@ -1,6 +1,7 @@
-define(function (require) {
-  const _ = require('lodash');
+import _ from 'lodash';
 
+define(function (require) {
+  
   return {
     getGeoExtents: function(visData) {
       return {
@@ -102,17 +103,77 @@ define(function (require) {
       };
     },
     getMapStateFromVis: function(vis) {
-      const mapState = {
-        center: [15, 5],
-        zoom: 2
-      }
+      const mapState = {};
+      //Visualizations created in 5.x will have map state in uiState
       if (vis.hasUiState()) {
         const uiStateCenter = vis.uiStateVal('mapCenter');
-        if(uiStateCenter) mapState.center = uiStateCenter;
         const uiStateZoom = vis.uiStateVal('mapZoom');
-        if(uiStateZoom) mapState.zoom = uiStateZoom;
+        if(uiStateCenter && uiStateZoom) {
+          mapState.center = uiStateCenter;
+          mapState.zoom = uiStateZoom;
+        }
+      }
+      //Visualizations created in 4.x will have map state in segment aggregation
+      if (!_.has(mapState, 'center') && !_.has(mapState, 'zoom')) {
+        const agg = this.getAggConfig(vis.aggs, 'segment');
+        if (agg) {
+          mapState.center = _.get(agg, 'params.mapCenter');
+          mapState.zoom = _.get(agg, 'params.mapZoom');
+        }
+      }
+      //Provide defaults if no state found
+      if (!_.has(mapState, 'center') && !_.has(mapState, 'zoom')) {
+        mapState.center = [15, 5];
+        mapState.zoom = 2;
       }
       return mapState;
+    },
+    /**
+     * Avoid map auto panning. Use the offset option to 
+     * anchor popups so content fits inside map bounds.
+     *
+     * @method popupOffset
+     * @param map {L.Map} Leaflet map
+     * @param content {String} String containing html popup content
+     * @param latLng {L.LatLng} popup location
+     * @return {L.Point} offset
+     */
+    popupOffset: function(map, content, latLng) {
+      const mapWidth = map.getSize().x;
+      const mapHeight = map.getSize().y;
+      const popupPoint = map.latLngToContainerPoint(latLng);
+      //Create popup that is out of view to determine dimensions
+      const popup = L.popup({
+        autoPan: false,
+        maxHeight: 'auto',
+        maxWidth: 'auto',
+        offset: new L.Point(mapWidth * -2, mapHeight * -2)
+      })
+      .setLatLng(latLng)
+      .setContent(content)
+      .openOn(map);
+      const popupHeight = popup._contentNode.clientHeight;
+      const popupWidth = popup._contentNode.clientWidth / 2;
+
+      let widthOffset = 0;
+      const distToLeftEdge = popupPoint.x;
+      const distToRightEdge = mapWidth - popupPoint.x;
+      if (distToLeftEdge < popupWidth) {
+        //Move popup right as little as possible
+        widthOffset = popupWidth - distToLeftEdge;
+      } else if (distToRightEdge < popupWidth) {
+        //Move popup left as little as possible
+        widthOffset = -1 * (popupWidth - distToRightEdge);
+      }
+
+      let heightOffset = 6; //leaflet default
+      const distToTopEdge = popupPoint.y;
+      if (distToTopEdge < popupHeight) {
+        //Move popup down as little as possible
+        heightOffset = popupHeight - distToTopEdge + 16;
+      }
+
+      return new L.Point(widthOffset, heightOffset);
     }
   }
 });
