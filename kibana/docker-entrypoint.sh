@@ -9,14 +9,14 @@ fi
 echo "elasticsearch.url: 'http://elasticsearch:9200'" >> /kibana/config/kibana.yml
 echo "server.host: '0.0.0.0'" >> /kibana/config/kibana.yml
 
-if [ -z "$KIBANA_RW_USERNAME" ]           
-then
+# if [ -z "$KIBANA_RW_USERNAME" ]           
+# then
   echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /kibana/config/kibana.yml
   echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /kibana/config/kibana.yml
 
   sed "s#KIBANA_RW_USERNAME#$KIBANA_RW_USERNAME#g" -i /kibana/config/kibana.yml
   sed "s#KIBANA_RW_PASSWORD#$KIBANA_RW_PASSWORD#g" -i /kibana/config/kibana.yml
-fi
+# fi
 
 if [ $ENABLE_SSL = "YES" ]
 then
