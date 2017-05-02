@@ -2,7 +2,7 @@
 
 #services:
   elasticsearch:
-    image: eeacms\elk-elasticsearch
+    image: eeacms/elk-elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -34,7 +34,7 @@
       - elasticsearch:elasticsearch
 
   kibana:
-    image: eeacms\elk-kibana
+    image: eeacms/elk-kibana
     ports:
       - "5601:5601"
     volumes:
