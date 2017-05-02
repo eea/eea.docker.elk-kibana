@@ -9,7 +9,7 @@ fi
 echo "elasticsearch.url: 'http://elasticsearch:9200'" >> /kibana/config/kibana.yml
 echo "server.host: '0.0.0.0'" >> /kibana/config/kibana.yml
 
-if [ "$KIBANA_RW_USERNAME" = "YES" ]           
+if [ -z "$KIBANA_RW_USERNAME" ]           
 then
   echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /kibana/config/kibana.yml
   echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /kibana/config/kibana.yml
