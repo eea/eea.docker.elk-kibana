@@ -9,6 +9,12 @@ fi
 echo "elasticsearch.url: 'http://elasticsearch:9200'" >> /kibana/config/kibana.yml
 echo "server.host: '0.0.0.0'" >> /kibana/config/kibana.yml
 
+if [ "$KIBANA_RW_USERNAME" = "YES" ]           
+then
+  echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /kibana/config/kibana.yml
+  echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /kibana/config/kibana.yml
+fi
+
 if [ $ENABLE_SSL = "YES" ]
 then
   mkdir -p /var/ssl
@@ -18,9 +24,6 @@ then
   echo "$SSL_KEY" > /var/ssl/server.key
 
   chmod 400 /var/ssl/*
-
-  echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /kibana/config/kibana.yml
-  echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /kibana/config/kibana.yml
 
   echo "server.ssl.enabled: true" >> /kibana/config/kibana.yml
   echo "server.ssl.key: /var/ssl/server.key" >> /kibana/config/kibana.yml
