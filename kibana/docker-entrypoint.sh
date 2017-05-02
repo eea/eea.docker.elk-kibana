@@ -13,6 +13,9 @@ if [ "$KIBANA_RW_USERNAME" = "YES" ]
 then
   echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /kibana/config/kibana.yml
   echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /kibana/config/kibana.yml
+
+  sed "s#KIBANA_RW_USERNAME#$KIBANA_RW_USERNAME#g" -i /kibana/config/kibana.yml
+  sed "s#KIBANA_RW_PASSWORD#$KIBANA_RW_PASSWORD#g" -i /kibana/config/kibana.yml
 fi
 
 if [ $ENABLE_SSL = "YES" ]
@@ -28,9 +31,6 @@ then
   echo "server.ssl.enabled: true" >> /kibana/config/kibana.yml
   echo "server.ssl.key: /var/ssl/server.key" >> /kibana/config/kibana.yml
   echo "server.ssl.certificate: /var/ssl/server.crt" >> /kibana/config/kibana.yml
-
-  sed "s#KIBANA_RW_USERNAME#$KIBANA_RW_USERNAME#g" -i /kibana/config/kibana.yml
-  sed "s#KIBANA_RW_PASSWORD#$KIBANA_RW_PASSWORD#g" -i /kibana/config/kibana.yml
 fi
 
 # Run as user "kibana" if the command is "kibana"
