@@ -7,7 +7,7 @@ RUN apt-get -y install vim npm git curl
 
 RUN git clone https://github.com/elastic/kibana.git \
     && cd kibana \
-    && git checkout v5.3.0
+    && git checkout v5.3.2
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
