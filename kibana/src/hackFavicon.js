@@ -6,7 +6,7 @@
     var $ = window.jQuery;
 		$('head').find('link[rel*="icon"]').remove();
 		$('title').text("EEA");
-		$('head').append('<link rel="shortcut icon" type="icon" href="https://cdn.rawgit.com/eea/eea.docker.elk/ffe74ac5/kibana/src/eea_mini.ico">');
+		$('head').append('<link rel="shortcut icon" type="icon" href="https://cdn.rawgit.com/eea/eea.docker.elk-kibana/8a03d54d/kibana/src/eea_mini.ico">');
   };
   document.getElementsByTagName("head")[0].appendChild(script);
 })();
