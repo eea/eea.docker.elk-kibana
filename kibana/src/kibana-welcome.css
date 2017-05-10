@@ -8,7 +8,7 @@ banaWelcomeView {
 
 .kibanaLoader {
   background: #ffffff !important;
-  background-image: url("https://cdn.rawgit.com/eea/eea.docker.elk/ffe74ac5/kibana/src/EEA-logo-EN.svg") !important;
+  background-image: url("https://cdn.rawgit.com/eea/eea.docker.elk-kibana/c26bffb9/kibana/src/EEA-logo-EN.svg") !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
 }
