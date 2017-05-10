@@ -26,6 +26,7 @@ ADD src/kbn_top_nav.html /kibana/src/ui/public/kbn_top_nav/kbn_top_nav.html
 ADD src/kbn_top_nav_controller.js /kibana/src/ui/public/kbn_top_nav/kbn_top_nav_controller.js
 ADD src/share.js /kibana/src/ui/public/share/directives/share.js
 ADD src/share.html /kibana/src/ui/public/share/views/share.html
+ADD src/index.less /kibana/src/core_plugins/kibana/public/dashboard/styles/index.less
 
 ADD src/logo_hack.txt /tmp/logo_hack.txt
 RUN cat /tmp/logo_hack.txt >> /kibana/src/ui/views/chrome.jade
