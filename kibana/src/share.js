@@ -28,7 +28,7 @@ app.directive('share', function (Private) {
     },
     template: shareTemplate,
     controllerAs: 'share',
-    controller: function ($scope, $document, $location, globalState) {
+    controller: function ($scope, $document, $location) {
       if ($scope.allowEmbed !== 'false' && $scope.allowEmbed !== undefined) {
         throw new Error('allowEmbed must be "false" or undefined');
       }
@@ -116,6 +116,7 @@ app.directive('share', function (Private) {
           shortSnapshotIframe: false,
         };
       };
+      
       this.updateUrls = updateUrls;
 
       // When the URL changes, update the links in the UI.
