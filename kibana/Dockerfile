@@ -60,8 +60,8 @@ RUN cd /kibana/plugins/Elastic-5.0-Offline-Map-Visualizer && sed "s#KIBANA_VERSI
 ADD plugins/Elastic-5.0-Country-Map-Visualizer /kibana/plugins/Elastic-5.0-Country-Map-Visualizer
 RUN cd /kibana/plugins/Elastic-5.0-Country-Map-Visualizer && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/kbn_c3js_vis /kibana/plugins/kbn_c3js_vis
-RUN cd /kibana/plugins/kbn_c3js_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/kbn_c3js_vis /kibana/plugins/kbn_c3js_vis
+#RUN cd /kibana/plugins/kbn_c3js_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ADD plugins/ob-kb-funnel /kibana/plugins/ob-kb-funnel
 RUN cd /kibana/plugins/ob-kb-funnel && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
@@ -81,9 +81,6 @@ RUN cd /kibana/plugins/kibi_radar_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g
 ADD plugins/kibana_ext_metrics_vis /kibana/plugins/kibana_ext_metrics_vis
 RUN cd /kibana/plugins/kibana_ext_metrics_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/computed-columns /kibana/plugins/computed-columns
-RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
-
 ADD plugins/cohort /kibana/plugins/cohort
 RUN cd /kibana/plugins/cohort && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
@@ -101,6 +98,9 @@ RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION
 
 #ADD plugins/kbn_sankey_vis /kibana/plugins/kbn_sankey_vis
 #RUN cd /kibana/plugins/kbn_sankey_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+
+#ADD plugins/computed-columns /kibana/plugins/computed-columns
+#RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ENV PATH /kibana/bin:$PATH
 
