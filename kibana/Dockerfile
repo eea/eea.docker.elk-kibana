@@ -99,8 +99,8 @@ RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION
 #ADD plugins/kbn_sankey_vis /kibana/plugins/kbn_sankey_vis
 #RUN cd /kibana/plugins/kbn_sankey_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-#ADD plugins/computed-columns /kibana/plugins/computed-columns
-#RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+ADD plugins/computed-columns /kibana/plugins/computed-columns
+RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ENV PATH /kibana/bin:$PATH
 
