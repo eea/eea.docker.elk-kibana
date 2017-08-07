@@ -23,8 +23,9 @@ then
   mkdir -p /var/ssl
   rm -f /var/ssl/*
   echo "creating ssl certificates"
-  echo "$SSL_CERT" > /var/ssl/server.crt
-  echo "$SSL_KEY" > /var/ssl/server.key
+
+  cat /ssl/server.crt > /var/ssl/server.crt  
+  cat /ssl/server.key > /var/ssl/server.key
 
   chmod 400 /var/ssl/*
 
