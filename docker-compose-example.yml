@@ -41,6 +41,8 @@
       - /backups:/backups
       - /etc/pki/tls/certs/server.crt:/ssl/server.crt:ro
       - /etc/pki/tls/private/server.key:/ssl/server.key:ro
+      #enable server-chain.key for selfsigned certificated only!
+      #- /etc/pki/tls/private/server-chain.key:/ssl/server-chain.key:ro
     links:
       - elasticsearch:elasticsearch
     environment:
