@@ -18,6 +18,9 @@ echo "server.host: '0.0.0.0'" >> /kibana/config/kibana.yml
   sed "s#KIBANA_RW_PASSWORD#$KIBANA_RW_PASSWORD#g" -i /kibana/config/kibana.yml
 # fi
 
+#self signed certificate in elasticsearch
+echo "elasticsearch.ssl.verificationMode: none" >> /kibana/config/kibana.yml
+
 if [ $ENABLE_SSL = "YES" ]
 then
   mkdir -p /var/ssl
