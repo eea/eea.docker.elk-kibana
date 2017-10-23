@@ -19,16 +19,16 @@ RUN npm install bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
 #in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.3.0
-ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
-ADD src/dashboard.html /kibana/src/core_plugins/kibana/public/dashboard/dashboard.html
-ADD src/editor.html /kibana/src/core_plugins/kibana/public/visualize/editor/editor.html
+#ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
+#ADD src/dashboard.html /kibana/src/core_plugins/kibana/public/dashboard/dashboard.html
+#ADD src/editor.html /kibana/src/core_plugins/kibana/public/visualize/editor/editor.html
 ADD src/controls.js /kibana/src/ui/public/chrome/api/controls.js
-ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
-ADD src/kbn_top_nav.html /kibana/src/ui/public/kbn_top_nav/kbn_top_nav.html
-ADD src/kbn_top_nav_controller.js /kibana/src/ui/public/kbn_top_nav/kbn_top_nav_controller.js
-ADD src/share.js /kibana/src/ui/public/share/directives/share.js
-ADD src/share.html /kibana/src/ui/public/share/views/share.html
-ADD src/index.less /kibana/src/core_plugins/kibana/public/dashboard/styles/index.less
+#ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
+#ADD src/kbn_top_nav.html /kibana/src/ui/public/kbn_top_nav/kbn_top_nav.html
+#ADD src/kbn_top_nav_controller.js /kibana/src/ui/public/kbn_top_nav/kbn_top_nav_controller.js
+#ADD src/share.js /kibana/src/ui/public/share/directives/share.js
+#ADD src/share.html /kibana/src/ui/public/share/views/share.html
+#ADD src/index.less /kibana/src/core_plugins/kibana/public/dashboard/styles/index.less
 
 ADD src/logo_hack.txt /tmp/logo_hack.txt
 RUN cat /tmp/logo_hack.txt >> /kibana/src/ui/views/chrome.jade
