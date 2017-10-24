@@ -1,10 +1,12 @@
+import { FilterBarQueryFilterProvider } from 'ui/filter_bar/query_filter';
+
 define(function (require) {
   const LAT_INDEX = 1;
   const LON_INDEX = 0;
 
   return function GeoFilterFactory(Private) {
     const _ = require('lodash');
-    const queryFilter = Private(require('ui/filter_bar/query_filter'));
+    const queryFilter = Private(FilterBarQueryFilterProvider);
 
     function filterAlias(field, numBoxes) {
       return field + ": " + numBoxes + " geo filters"
@@ -20,45 +22,41 @@ define(function (require) {
 
       if (existingFilter) {
         let geoFilters = _.flatten([newFilter]);
-        let type = '';
         if (_.has(existingFilter, 'bool.should')) {
           geoFilters = geoFilters.concat(existingFilter.bool.should);
-          type = 'bool';
         } else if (_.has(existingFilter, 'geo_bounding_box')) {
           geoFilters.push({geo_bounding_box: existingFilter.geo_bounding_box});
-          type = 'geo_bounding_box';
         } else if (_.has(existingFilter, 'geo_polygon')) {
           geoFilters.push({geo_polygon: existingFilter.geo_polygon});
-          type = 'geo_polygon';
         } else if (_.has(existingFilter, 'geo_shape')) {
           geoFilters.push({geo_shape: existingFilter.geo_shape});
-          type = 'geo_shape';
         }
-        queryFilter.updateFilter({
-          model: { 
-            bool : { 
-              should : geoFilters
-            } 
+
+        // Update method removed - so just remove old filter and add updated filter
+        const updatedFilter = {
+          bool: {
+            should: geoFilters
           },
-          source: existingFilter,
-          type: type,
-          alias: filterAlias(field, geoFilters.length)
-        });
+          meta: existingFilter.meta
+        };
+        updatedFilter.meta.alias = filterAlias(field, geoFilters.length);
+        queryFilter.removeFilter(existingFilter);
+        queryFilter.addFilters([updatedFilter]);
       } else {
         let numFilters = 1;
         if (_.isArray(newFilter)) {
           numFilters = newFilter.length;
-          newFilter = { 
+          newFilter = {
             bool: {
               should: newFilter
             }
           };
         }
         newFilter.meta = {
-          alias: filterAlias(field, numFilters), 
-          negate: false, 
-          index: indexPatternName, 
-          key: field 
+          alias: filterAlias(field, numFilters),
+          negate: false,
+          index: indexPatternName,
+          key: field
         };
         queryFilter.addFilters(newFilter);
       }
@@ -83,7 +81,7 @@ define(function (require) {
         const bottomRight = _.get(filter, ['geo_bounding_box', field, 'bottom_right']);
         if(topLeft && bottomRight) {
           const bounds = L.latLngBounds(
-            [topLeft.lat, topLeft.lon], 
+            [topLeft.lat, topLeft.lon],
             [bottomRight.lat, bottomRight.lon]);
           features.push(L.rectangle(bounds));
         }
@@ -105,7 +103,7 @@ define(function (require) {
           const lon = point[LON_INDEX];
           latLngs.push(L.latLng(lat, lon));
         });
-        if(latLngs.length > 0) 
+        if(latLngs.length > 0)
           features.push(L.polygon(latLngs));
       } else if (_.has(filter, ['geo_shape', field])) {
         const type = _.get(filter, ['geo_shape', field, 'shape', 'type']);
@@ -114,7 +112,7 @@ define(function (require) {
           const tl = envelope[0]; //topleft
           const br = envelope[1]; //bottomright
           const bounds = L.latLngBounds(
-            [tl[LAT_INDEX], tl[LON_INDEX]], 
+            [tl[LAT_INDEX], tl[LON_INDEX]],
             [br[LAT_INDEX], br[LON_INDEX]]);
           features.push(L.rectangle(bounds));
         } else if (type.toLowerCase() === 'polygon') {

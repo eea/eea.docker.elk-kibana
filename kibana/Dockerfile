@@ -67,8 +67,8 @@ RUN cd /kibana/plugins/kibana_dropdown && sed "s#KIBANA_VERSION#$KIBANA_VERSION#
 ADD plugins/kibana-relational-filter /kibana/plugins/kibana-relational-filter
 RUN cd /kibana/plugins/kibana-relational-filter && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/ob-kb-percent /kibana/plugins/ob-kb-percent
-RUN cd /kibana/plugins/ob-kb-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+ADD plugins/enhanced_tilemap /kibana/plugins/enhanced_tilemap
+RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
 ENV PATH /kibana/bin:$PATH
 
