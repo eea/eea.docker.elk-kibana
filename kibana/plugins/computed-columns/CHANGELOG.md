@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.1] - 2017-07-22
+
+### Fixed
+- Minor code clean bugs.
+
+### Added
+- Support for Kibana 5.5.5.
+- Support for string cols.
+
+## [0.6.0] - 2017-06-14
+
+### Added
+- Visualization type Data thanks to @fbaligand. PR #7
+
+### Fixed
+- Split table support.
+
+## [0.5.0] - 2017-05-31
+
+### Added
+- Custom ouput format (default 0,0.[00]).
+
+### Fixed
+- Formulas mapped to math constant like e (euler).
+
 ## [0.2.0] - 2017-03-31
 
 ### Added

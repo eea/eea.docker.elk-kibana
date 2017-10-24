@@ -2,22 +2,30 @@ import 'plugins/computed-columns/computed-columns.less';
 import 'plugins/computed-columns/computed-columns-vis';
 import 'plugins/computed-columns/computed-columns-params';
 
-import TemplateVisTypeTemplateVisTypeProvider from 'ui/template_vis_type/template_vis_type';
-import VisSchemasProvider from 'ui/vis/schemas';
+import { VisVisTypeProvider } from 'ui/vis/vis_type';
+import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
+import { VisSchemasProvider } from 'ui/vis/schemas';
 
 import visTemplate from 'plugins/computed-columns/computed-columns-vis.html';
 import paramsTemplate from 'plugins/computed-columns/computed-columns-params.html';
 
-require('ui/registry/vis_types').register(ExtendedMetricVisProvider);
+import image from './images/icon-table.svg';
+
+import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
+
+VisTypesRegistryProvider.register(ExtendedMetricVisProvider);
 
 function ExtendedMetricVisProvider(Private) {
-  const TemplateVisType = Private(TemplateVisTypeTemplateVisTypeProvider);
+  const VisType = Private(VisVisTypeProvider);
+  const TemplateVisType = Private(TemplateVisTypeProvider);
   const Schemas = Private(VisSchemasProvider);
 
   return new TemplateVisType({
     name: 'computed-columns',
-    title: 'Computed Columns',
+    title: 'Computed Cols',
     description: 'Same functionality than Data Table, but after data processing, computed columns can be added with math expressions.',
+    category: VisType.CATEGORY ? VisType.CATEGORY.DATA : undefined,
+    image,
     icon: 'fa-table',
     template: visTemplate,
     params: {
@@ -34,7 +42,7 @@ function ExtendedMetricVisProvider(Private) {
         computedColumns: [{
           formula: 'col[0] * col[0]',
           label: 'Value squared',
-          format: '0,0',
+          format: '0,0.[00]',
           enabled: true
         }]
       },

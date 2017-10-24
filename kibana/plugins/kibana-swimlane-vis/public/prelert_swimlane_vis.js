@@ -21,12 +21,12 @@
 import 'plugins/prelert_swimlane_vis/prelert_swimlane_vis_controller.js';
 import 'plugins/prelert_swimlane_vis/prelert_swimlane_vis.less';
 
-import visTypes from 'ui/registry/vis_types';
-import TemplateVisTypeProvider from 'ui/template_vis_type/template_vis_type';
-import VisSchemasProvider from 'ui/vis/schemas';
+import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
+import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
+import { VisSchemasProvider } from 'ui/vis/schemas';
 
 // Register the PrelertSwimlaneVisProvider with the visualization registry.
-visTypes.register(PrelertSwimlaneVisProvider);
+VisTypesRegistryProvider.register(PrelertSwimlaneVisProvider);
 
 function PrelertSwimlaneVisProvider(Private) {
   const TemplateVisType = Private(TemplateVisTypeProvider);
@@ -42,7 +42,7 @@ function PrelertSwimlaneVisProvider(Private) {
                   'Each lane displays a different value of the field, with the ' +
                   'relative size of the metric over each interval indicated ' +
                   'by the color of the symbol at that time. ' +
-                  'Created by Prelert for Behavioral Analytics www.prelert.com',
+                  'Created by Prelert.',
     template : require('plugins/prelert_swimlane_vis/prelert_swimlane_vis.html'),
     params : {
       editor : require('plugins/prelert_swimlane_vis/prelert_swimlane_vis_params.html'),
@@ -53,16 +53,23 @@ function PrelertSwimlaneVisProvider(Private) {
         minorThreshold: 25,
         majorThreshold: 50,
         criticalThreshold: 75,
-        tooltipNumberFormat: '0.0'
+        lowThresholdColor: '#d2e9f7',
+        warningThresholdColor: '#8bc8fb',
+        minorThresholdColor: '#ffdd00',
+        majorThresholdColor: '#ff7e00',
+        criticalThresholdColor: '#fe5050',
+        tooltipNumberFormat: '0.0',
+        showLegend: true,
+        alphabetSortLaneLabels: 'off'
       },
-      intervalOptions: [{display:'Auto', val:'auto'},
-                        {display:'5 minutes', val:'custom', customInterval:'5m'},
-                        {display:'10 minutes', val:'custom', customInterval:'10m'},
-                        {display:'30 minutes', val:'custom', customInterval:'30m'},
-                        {display:'1 hour', val:'h'},
-                        {display:'3 hours', val:'custom', customInterval:'3h'},
-                        {display:'12 hours', val:'custom', customInterval:'12h'},
-                        {display:'1 day', val:'d'}]
+      intervalOptions: [{ display:'Auto', val:'auto' },
+                        { display:'5 minutes', val:'custom', customInterval:'5m' },
+                        { display:'10 minutes', val:'custom', customInterval:'10m' },
+                        { display:'30 minutes', val:'custom', customInterval:'30m' },
+                        { display:'1 hour', val:'h' },
+                        { display:'3 hours', val:'custom', customInterval:'3h' },
+                        { display:'12 hours', val:'custom', customInterval:'12h' },
+                        { display:'1 day', val:'d' }]
     },
     schemas : new Schemas([ {
       group : 'metrics',
@@ -90,4 +97,4 @@ function PrelertSwimlaneVisProvider(Private) {
       aggFilter : 'date_histogram'
     } ])
   });
-};
+}

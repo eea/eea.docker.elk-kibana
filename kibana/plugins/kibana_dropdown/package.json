@@ -3,6 +3,9 @@
   "version": "KIBANA_VERSION",
   "description": "Dropdown select widget for Kibana dashboards",
   "main": "index.js",
+  "kibana": {
+    "version": "KIBANA_VERSION"
+  },
   "scripts": {
     "lint": "eslint",
     "start": "plugin-helpers start",

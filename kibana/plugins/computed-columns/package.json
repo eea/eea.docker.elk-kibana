@@ -1,6 +1,6 @@
 {
   "name": "computed-columns",
-  "version": "0.3.0",
+  "version": "0.7.1",
   "description": "This visualization plugin is like a table, but with computed columns",
   "main": "index.js",
   "kibana": {
@@ -23,7 +23,6 @@
     "eslint-plugin-mocha": "1.1.0"
   },
   "dependencies": {
-    "expr-eval": "^1.0.0",
-    "number-to-letter": "^1.0.1"
+    "expr-eval": "^1.0.0"
   }
 }

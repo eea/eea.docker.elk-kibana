@@ -1,16 +1,15 @@
 import _ from 'lodash';
-import VisAggConfigProvider from 'ui/vis/agg_config';
+import { VisAggConfigProvider } from 'ui/vis/agg_config';
 import AggConfigResult from 'ui/vis/agg_config_result';
-import AggResponseTabifyTabifyProvider from 'ui/agg_response/tabify/tabify';
-import uiModules from 'ui/modules';
+import { AggResponseTabifyProvider } from 'ui/agg_response/tabify/tabify';
+import { uiModules } from 'ui/modules';
 import { Parser } from 'expr-eval';
-import n2l from 'number-to-letter';
 import numeral from 'numeral';
 
 const module = uiModules.get('kibana/computed-columns', ['kibana']);
 module.controller('ComputedColumnsVisController', ($scope, $element, Private) => {
 
-  const tabifyAggResponse = Private(AggResponseTabifyTabifyProvider);
+  const tabifyAggResponse = Private(AggResponseTabifyProvider);
   const AggConfig = Private(VisAggConfigProvider);
 
   const uiStateSort = ($scope.uiState) ? $scope.uiState.get('vis.params.sort') : {};
@@ -21,7 +20,8 @@ module.controller('ComputedColumnsVisController', ($scope, $element, Private) =>
     let myArray;
     let output = {};
     while ((myArray = regex.exec(formula)) !== null) {
-      output[n2l(myArray[1])] = numeral(row[myArray[1]].value).value() ? numeral(row[myArray[1]].value).value() : 0;
+      output[`x${myArray[1]}`] = (typeof row[myArray[1]].value === 'number') ?
+        numeral(row[myArray[1]].value).value() : row[myArray[1]].value;
     }
     return output;
   };
@@ -29,7 +29,7 @@ module.controller('ComputedColumnsVisController', ($scope, $element, Private) =>
   const createParser = (computedColumn) => {
     let expression = computedColumn.formula.replace(/col\[\d+\]/g, (value) => {
       let cleanValue = /(\d+)/.exec(value)[1];
-      return n2l(cleanValue);
+      return `x${cleanValue}`;
     });
     return Parser.parse(expression);
 
@@ -48,14 +48,34 @@ module.controller('ComputedColumnsVisController', ($scope, $element, Private) =>
       let expressionParams = createExpressionsParams(computedColumn.formula, row);
       let value = parser.evaluate(expressionParams);
       let newCell = new AggConfigResult(column.aggConfig, void 0, value, value);
+      newCell.toString = () => {
+        return (typeof value === 'number') ? numeral(value).format(computedColumn.format) : value;
+      };
       row.push(newCell);
       return row;
     });
   };
 
+  const createTables = (tables, computedColumn, index) => {
+    _.forEach(tables, (table) => {
+      if (table.tables) {
+        createTables(table.tables, computedColumn, index);
+        return;
+      }
+
+      let newColumn = createColumn(computedColumn, index);
+      table.columns.push(newColumn);
+      table.rows = createRows(newColumn, table.rows, computedColumn);
+    });
+  };
+
   const hideColumns = (tables, hiddenColumns) => {
+    if (!hiddenColumns) {
+      return;
+    }
+
     let removedCounter = 0;
-    _(_.split(hiddenColumns, ',')).compact().sortBy().forEach((item) => {
+    _.forEach(hiddenColumns.split(','), (item) => {
       let index = item * 1;
       _.forEach(tables, (table) => {
         table.columns.splice(index - removedCounter, 1);
@@ -90,11 +110,7 @@ module.controller('ComputedColumnsVisController', ($scope, $element, Private) =>
       });
 
       _.forEach(computedColumns, (computedColumn, index) => {
-        _.forEach(tableGroups.tables, (table) => {
-          let newColumn = createColumn(computedColumn, index);
-          table.columns.push(newColumn);
-          table.rows = createRows(newColumn, table.rows, computedColumn);
-        });
+        createTables(tableGroups.tables, computedColumn, index);
       });
 
       hideColumns(tableGroups.tables, hiddenColumns);

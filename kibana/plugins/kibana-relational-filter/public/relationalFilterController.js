@@ -1,6 +1,7 @@
 // Create an Angular module for this plugin
+import { uiModules } from 'ui/modules';
 var module = require('ui/modules').get('relational_filter');
-import FilterBarQueryFilterProvider from 'ui/filter_bar/query_filter';
+import { FilterBarQueryFilterProvider } from 'ui/filter_bar/query_filter';
 
 module.controller('relationalFilterController', function($scope, Private) {
 
@@ -51,7 +52,7 @@ module.controller('relationalFilterController', function($scope, Private) {
         console.log(tag);
         console.log($scope.vis.params.emptyValue);
 
-        filter = {};
+        filter = {'meta':{'type':'query'}};
         filter[alias] = tag.label;
 
         internal_query = {

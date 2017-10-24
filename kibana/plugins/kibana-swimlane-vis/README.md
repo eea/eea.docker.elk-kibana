@@ -19,10 +19,162 @@ response times:
 
 Different releases of the plugin are available to work with either Kibana 4 or Kibana 5.
 
-The distribution for Kibana 4 has been tested with Kibana versions 4.3, 4.4, 4.5 and 4.6, and the Kibana 5
-build with versions 5.0.0, 5.0.1 and 5.0.2.
+The distribution for Kibana 4 has been tested with Kibana versions:
+* 4.3
+* 4.4
+* 4.5
+* 4.6
+
+and the distribution for Kibana 5 has been built for versions:
+* 5.0.0
+* 5.0.1
+* 5.0.2
+* 5.1.1
+* 5.1.2
+* 5.2.2
+* 5.3.0
+* 5.3.1
+* 5.3.2
+* 5.4.0
+* 5.4.1
+* 5.4.2
+* 5.4.3
+* 5.5.0
+* 5.5.1
+* 5.5.2
+* 5.5.3
+* 5.6.0
+* 5.6.1
+* 5.6.2
+* 5.6.3
 
 ## Installation
+
+### Kibana 5.6.3:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.6.3/prelert_swimlane_vis-5.6.3.zip
+```
+
+### Kibana 5.6.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.6.2/prelert_swimlane_vis-5.6.2.zip
+```
+
+### Kibana 5.6.1:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.6.1/prelert_swimlane_vis-5.6.1.zip
+```
+
+### Kibana 5.6.0:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.6.0/prelert_swimlane_vis-5.6.0.zip
+```
+
+### Kibana 5.5.3:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.5.3/prelert_swimlane_vis-5.5.3.zip
+```
+
+### Kibana 5.5.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.5.2/prelert_swimlane_vis-5.5.2.zip
+```
+
+### Kibana 5.5.1:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.5.1/prelert_swimlane_vis-5.5.1.zip
+```
+
+### Kibana 5.5.0:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.5.0/prelert_swimlane_vis-5.5.0.zip
+```
+
+### Kibana 5.4.3:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.4.3/prelert_swimlane_vis-5.4.3.zip
+```
+
+### Kibana 5.4.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.4.2/prelert_swimlane_vis-5.4.2.zip
+```
+
+### Kibana 5.4.1:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.4.1/prelert_swimlane_vis-5.4.1.zip
+```
+
+### Kibana 5.4.0:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.4.0/prelert_swimlane_vis-5.4.0.zip
+```
+
+### Kibana 5.3.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.3.2/prelert_swimlane_vis-5.3.2.zip
+```
+
+### Kibana 5.3.1:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.3.1/prelert_swimlane_vis-5.3.1.zip
+```
+
+### Kibana 5.3.0:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.3.0/prelert_swimlane_vis-5.3.0.zip
+```
+
+### Kibana 5.2.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.2.2/prelert_swimlane_vis-5.2.2.zip
+```
+
+### Kibana 5.1.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.1.2/prelert_swimlane_vis-5.1.2.zip
+```
+
+### Kibana 5.1.1:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.1.1/prelert_swimlane_vis-5.1.1.zip
+```
+
+### Kibana 5.0.2:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.0.2/prelert_swimlane_vis-5.0.2.zip
+```
+
+### Kibana 5.0.1:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.0.1/prelert_swimlane_vis-5.0.1.zip
+```
+
+### Kibana 5.0.0:
+
+```
+bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.0.0/prelert_swimlane_vis-5.0.0.zip
+```
 
 ### Kibana 4.x:
 
@@ -38,23 +190,6 @@ Windows:
 bin/kibana plugin -i prelert_swimlane_vis -u https://github.com/prelert/kibana-swimlane-vis/archive/v0.1.0.zip
 ```
 
-### Kibana 5.0.0:
-
-```
-bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.0.0/prelert_swimlane_vis-5.0.0.zip
-```
-
-### Kibana 5.0.1:
-
-```
-bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.0.1/prelert_swimlane_vis-5.0.1.zip
-```
-
-### Kibana 5.0.2:
-
-```
-bin/kibana-plugin install https://github.com/prelert/kibana-swimlane-vis/releases/download/v5.0.2/prelert_swimlane_vis-5.0.2.zip
-```
 
 ## Uninstall
 
@@ -95,8 +230,10 @@ the visualization has been saved and added to a dashboard.
 
 ## Options
 
-The options tab allows you to configure the color band thresholds and the format of the value shown
-in the tooltip when hovering over a band in the swimlane.
+The Options tab allows you to configure the color band thresholds, the format of the value shown in the tooltip
+when hovering over a band in the swimlane, whether to display the legend showing the lower threshold values
+for each of the color bands, and whether to sort the lanes alphabetically. Alternative colors for the swimlane
+cells can be chosen here by using the provided colorpickers or by entering hexidecimal color values.
 
 ![image](resources/options.png)
 
@@ -119,7 +256,11 @@ enter the desired value, noting that the values entered define the *lower* thres
 in the screenshot above, the thresholds have been adjusted to suit the range of response times from the flight
 comparison website data, with values of 3000 or more displayed in red.
 
-It is not yet possible to alter the number of color bands, nor the colors used for each range.
+It is not yet possible to alter the number of color bands.
+
+By default a legend will be displayed above the swimlane showing the configured lower band threshold values
+for each of the colors. This legend can be hidden by deselecting the *Show threshold legend* checkbox in the
+Options tab.
 
 ### Tooltip formatting
 
@@ -127,6 +268,16 @@ By default, the value shown in the tooltip when hovering over a band in the swim
 place. To alter the format of the tooltip to suit values in your data set, enter the desired format in the
 *Tooltip formatting* section of the Options tab. Refer to the [Numeral.js](http://numeraljs.com/) documentation
 for the range of accepted formats, with that being the library used to format the value in the tooltip.
+
+The date and time shown in the tooltip is displayed in the format that Kibana uses for displaying pretty-formatted
+dates. This `dateFormat` option can be configured in the *Advanced Settings* page under the Kibana Management
+application.
+
+### Lane sorting
+
+By default the lanes will be displayed in the order returned by the configured *View by* bucket aggregation. To
+perform a secondary alphabetical sort to the lane order, select *Ascending* or *Descending* as desired from the
+*Order lanes alphabetically* dropdown control.
 
 
 ## Issues
@@ -138,5 +289,3 @@ Please file issues [here](https://github.com/prelert/kibana-swimlane-vis/issues)
 Prelert is the leading provider of behavioral analytics for IT security, IT operations, and business operations teams. Our solution analyzes log data, finds anomalies, links them together and lets the data tell the story behind advanced security threats, IT performance problems, and business disruptions.
 
 Leveraging machine learning anomaly detection and other behavioral analytics capabilities, the solution automates the analysis of massive data sets, eliminating manual effort and human error. Hundreds of progressive IT organizations rely on Prelert to detect advanced threat activity, reduce false positive alerts and enable faster root cause analysis. Prelert lets your data tell the story.
-
-www.prelert.com

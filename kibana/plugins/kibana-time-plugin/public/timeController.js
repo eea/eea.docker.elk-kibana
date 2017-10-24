@@ -3,8 +3,24 @@ import dateMath from '@elastic/datemath';
 import moment from 'moment';
 import 'ui/timepicker/quick_ranges';
 import 'ui/timepicker/time_units';
-import uiModules from 'ui/modules';
+import { SimpleEmitter } from 'ui/utils/simple_emitter';
+import { uiModules } from 'ui/modules';
+//import uiModules from 'ui/modules';
 const module = uiModules.get('kibana/kibana-time-plugin', ['kibana', 'ktp-ui.bootstrap.carousel', 'BootstrapAddons']);
+
+const msearchEmitter = new SimpleEmitter();
+module.config(function($httpProvider) {
+  $httpProvider.interceptors.push(function() {
+    return {
+      response: function(resp) {
+        if (resp.config.url.includes('_msearch')) {
+          msearchEmitter.emit('msearch:response');
+        }
+        return resp;
+      }
+    }
+  });
+});
 
   module.controller('KbnTimeVisController', function (quickRanges, timeUnits, $scope, $rootScope, Private, $filter, $timeout) {
     const TIMESLIDER_INSTR = "Click and drag to select a time range."
@@ -19,7 +35,7 @@ const module = uiModules.get('kibana/kibana-time-plugin', ['kibana', 'ktp-ui.boo
     ], setTime);
 
     var changeVisOff = $rootScope.$on(
-      'change:vis', 
+      'change:vis',
       _.debounce(updateTimeslider, 200, false));
     $scope.$on('$destroy', function() {
       changeVisOff();
@@ -62,6 +78,27 @@ const module = uiModules.get('kibana/kibana-time-plugin', ['kibana', 'ktp-ui.boo
       to: moment()
     };
 
+    //custom playback that waits for kibana msearch response before advancing timeframe
+    let nextStep = null;
+    $scope.kibanaPlayback = {
+      play: function(nextCallback) {
+        nextCallback();
+        const delay = _.get($scope.vis.params, 'animation_frame_delay', 1) * 1000;
+        nextStep = _.debounce(nextCallback, delay);
+      },
+      pause: function() {
+        if (nextStep) {
+          nextStep.cancel();
+          nextStep = null;
+        }
+      }
+    }
+    msearchEmitter.on('msearch:response', function() {
+      if (nextStep) {
+        nextStep();
+      }
+    });
+
     //When timeslider carousel slide is not displayed, it has a width of 0
     //attach click handler to carousel controls to redraw
     $timeout(function() {
@@ -92,7 +129,7 @@ const module = uiModules.get('kibana/kibana-time-plugin', ['kibana', 'ktp-ui.boo
       }
       console.log("from, ours: " + ours_ms.from + ", theirs: " + theirs_ms.from);
       console.log("to, ours: " + ours_ms.to + ", theirs: " + theirs_ms.to);
-      
+
       //setTime is called from watching kibana's timefilter
       //Avoid updating our $scope if the timefilter change is triggered by us
       if(Math.abs(ours_ms.from - theirs_ms.from) > 500
@@ -130,7 +167,7 @@ const module = uiModules.get('kibana/kibana-time-plugin', ['kibana', 'ktp-ui.boo
       }
     }
     setTime([
-      $rootScope.$$timefilter.time.from, 
+      $rootScope.$$timefilter.time.from,
       $rootScope.$$timefilter.time.to]);
 
     $scope.filterByTime = function(start, end) {
@@ -185,7 +222,7 @@ const module = uiModules.get('kibana/kibana-time-plugin', ['kibana', 'ktp-ui.boo
       $rootScope.$$timefilter.time.from = expectedFrom;
       $rootScope.$$timefilter.time.to = expectedTo;
       $rootScope.$$timefilter.time.mode = $scope.time.mode;
-      
+
       //keep other carousel slides in sync with new values
       if($scope.time.mode !== 'absolute') {
         $scope.time.absolute_from = dateMath.parse($scope.time.from);
