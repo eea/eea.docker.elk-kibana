@@ -70,8 +70,8 @@ RUN cd /kibana/plugins/kibana-relational-filter && sed "s#KIBANA_VERSION#$KIBANA
 ADD plugins/enhanced_tilemap /kibana/plugins/enhanced_tilemap
 RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
-#ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
-#RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
+ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
+RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
 ENV PATH /kibana/bin:$PATH
 
