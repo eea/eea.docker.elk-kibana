@@ -73,6 +73,9 @@ RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION
 ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
 RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
+ADD plugins/kibana-graph-plugin /kibana/plugins/kibana-graph-plugin
+RUN cd /kibana/plugins/kibana-graph-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+
 ENV PATH /kibana/bin:$PATH
 
 ADD docker-entrypoint.sh /
