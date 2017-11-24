@@ -18,9 +18,9 @@ RUN apt-get -y install nodejs
 RUN npm install bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
-ADD mod-it.sh /mod-it.sh
-RUN chmod a+x /mod-it.sh
-run sh /mod-it.sh
+#ADD mod-it.sh /mod-it.sh
+#RUN chmod a+x /mod-it.sh
+#run sh /mod-it.sh
 
 #in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.6.3
 ADD src/kbn_chrome.js src/ui/public/chrome/directives/kbn_chrome.js
@@ -76,8 +76,8 @@ RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION
 ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
 RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
-ADD plugins/kibana-graph-plugin /kibana/plugins/kibana-graph-plugin
-RUN cd /kibana/plugins/kibana-graph-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/kibana-graph-plugin /kibana/plugins/kibana-graph-plugin
+#RUN cd /kibana/plugins/kibana-graph-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ENV PATH /kibana/bin:$PATH
 
