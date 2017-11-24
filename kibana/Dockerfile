@@ -18,9 +18,9 @@ RUN apt-get -y install nodejs
 RUN npm install bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
-ADD mod-it.sh /mod-it.sh
-RUN chmod a+x /mod-it.sh
-run sh /mod-it.sh
+#ADD mod-it.sh /mod-it.sh
+#RUN chmod a+x /mod-it.sh
+#run sh /mod-it.sh
 
 #in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.6.3
 ADD src/kbn_chrome.js src/ui/public/chrome/directives/kbn_chrome.js
