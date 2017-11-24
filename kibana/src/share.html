@@ -30,6 +30,7 @@
             <a
               class="kuiLocalDropdownHeader__action"
               ng-click="share.copyToClipboard('#originalIframeUrl')"
+              kbn-accessible-click
             >
               Copy
             </a>
@@ -41,8 +42,8 @@
             <input type="checkbox" ng-model="share.showSearch" name="showSearch" ng-change="share.updateUrls()">
             Show Search Bar
           </label>
-        </div>        
-        
+        </div>
+
         <!-- Input -->
         <input
           id="originalIframeUrl"
@@ -69,6 +70,7 @@
             <a
               class="kuiLocalDropdownHeader__action"
               ng-click="share.copyToClipboard('#originalUrl')"
+              kbn-accessible-click
             >
               Copy
             </a>
@@ -111,6 +113,7 @@
             class="kuiLocalDropdownHeader__action"
             ng-if="!share.urlFlags.shortSnapshotIframe"
             ng-click="share.toggleShortSnapshotIframeUrl()"
+            kbn-accessible-click
           >
             Short URL
           </a>
@@ -119,6 +122,7 @@
             class="kuiLocalDropdownHeader__action"
             ng-if="share.urlFlags.shortSnapshotIframe"
             ng-click="share.toggleShortSnapshotIframeUrl()"
+            kbn-accessible-click
           >
             Long URL
           </a>
@@ -126,6 +130,7 @@
           <a
             class="kuiLocalDropdownHeader__action"
             ng-click="share.copyToClipboard('#snapshotIframeUrl')"
+            kbn-accessible-click
           >
             Copy
           </a>
@@ -138,7 +143,7 @@
           Show Search Bar
         </label>
       </div>
-      
+
       <!-- Input -->
       <input
         id="snapshotIframeUrl"
@@ -167,6 +172,7 @@
             class="kuiLocalDropdownHeader__action"
             ng-if="!share.urlFlags.shortSnapshot"
             ng-click="share.toggleShortSnapshotUrl()"
+            kbn-accessible-click
           >
             Short URL
           </a>
@@ -175,6 +181,7 @@
             class="kuiLocalDropdownHeader__action"
             ng-if="share.urlFlags.shortSnapshot"
             ng-click="share.toggleShortSnapshotUrl()"
+            kbn-accessible-click
           >
             Long URL
           </a>
@@ -183,6 +190,7 @@
             data-test-subj="sharedSnapshotCopyButton"
             class="kuiLocalDropdownHeader__action"
             ng-click="share.copyToClipboard('#snapshotUrl')"
+            kbn-accessible-click
           >
             Copy
           </a>

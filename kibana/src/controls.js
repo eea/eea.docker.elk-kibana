@@ -29,7 +29,6 @@ module.exports = function (chrome, internals) {
     if (_.isUndefined(internals.visible)) return def;
     return internals.visible;
   };
-
   /**
    * @param {boolean} showSearch - should the chrome Search Bar be displayed
    * @return {chrome}
@@ -46,4 +45,5 @@ module.exports = function (chrome, internals) {
     if (_.isUndefined(internals.showSearch)) return true;
     return internals.showSearch;
   };
+
 };

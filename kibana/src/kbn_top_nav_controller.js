@@ -4,7 +4,7 @@ import chrome from 'ui/chrome';
 import filterTemplate from 'ui/chrome/config/filter.html';
 import intervalTemplate from 'ui/chrome/config/interval.html';
 
-export default function ($compile) {
+export function KbnTopNavControllerProvider($compile) {
   return class KbnTopNavController {
     constructor(opts = []) {
       if (opts instanceof KbnTopNavController) {
@@ -24,6 +24,8 @@ export default function ($compile) {
     }
 
     isVisible() {
+      //michimau
+      //return chrome.getVisible();
       return chrome.getVisible() || chrome.getShowSearch();
     }
 
