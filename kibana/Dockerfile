@@ -5,7 +5,7 @@ MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 RUN apt-get -y update
 RUN apt-get -y install vim npm git curl 
 
-ENV KIBANA_VERSION 5.6.3
+ENV KIBANA_VERSION 5.6.4
 
 RUN git clone https://github.com/elastic/kibana.git \
     && cd kibana \
