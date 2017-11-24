@@ -1,3 +1,6 @@
+
+
+
 /**
  * 1. Enforce pointer when there's no href.
  */
@@ -630,6 +633,9 @@ body {
   opacity: 0.35; }
   .kuiCollapseButton:hover {
     opacity: 1; }
+  .theme-dark .kuiCollapseButton {
+    color: #cecece !important;
+    /* 1 */ }
 
 /**
  * 1. If we use margins instead, columns get pushed to the next line.
@@ -1582,6 +1588,9 @@ body {
   right: 5px; }
   .kuiLocalDropdownCloseButton:hover {
     opacity: 1; }
+  .theme-dark .kuiLocalDropdownCloseButton {
+    color: #cecece !important;
+    /* 1 */ }
   .theme-dark .kuiLocalDropdownCloseButton {
     color: #cecece !important;
     /* 1 */ }
@@ -3120,3 +3129,4 @@ body {
 .kuiViewContentItem {
   padding-left: 20px;
   padding-right: 20px; }
+
