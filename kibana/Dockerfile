@@ -22,20 +22,20 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc
 #RUN chmod a+x /mod-it.sh
 #run sh /mod-it.sh
 
-#in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.6.3
-ADD src/kbn_chrome.js src/ui/public/chrome/directives/kbn_chrome.js
-ADD src/dashboard.html src/core_plugins/kibana/public/dashboard/dashboard.html
-ADD src/editor.html src/core_plugins/kibana/public/visualize/editor/editor.html
-ADD src/controls.js src/ui/public/chrome/api/controls.js
-ADD src/kbn_chrome.js src/ui/public/chrome/directives/kbn_chrome.js
-ADD src/ui_framework.css ui_framework/dist/ui_framework.css 
-ADD src/kbn_top_nav.html src/ui/public/kbn_top_nav/kbn_top_nav.html 
-ADD src/kbn_top_nav_controller.js src/ui/public/kbn_top_nav/kbn_top_nav_controller.js	
-ADD src/share.js src/ui/public/share/directives/share.js
-ADD src/share.html src/ui/public/share/views/share.html
-ADD src/for-theme.less src/ui/public/styles/variables/for-theme.less
-ADD src/en.json src/core_plugins/kibana/translations/en.json 
-#ADD src/index.less kibana/public/dashboard/styles/index.less
+#in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.6.4
+ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
+ADD src/dashboard.html /kibana/src/core_plugins/kibana/public/dashboard/dashboard.html
+ADD src/editor.html /kibana/src/core_plugins/kibana/public/visualize/editor/editor.html
+ADD src/controls.js /kibana/src/ui/public/chrome/api/controls.js
+ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
+ADD src/ui_framework.css /kibana/ui_framework/dist/ui_framework.css
+ADD src/kbn_top_nav.html /kibana/src/ui/public/kbn_top_nav/kbn_top_nav.html
+ADD src/kbn_top_nav_controller.js /kibana/src/ui/public/kbn_top_nav/kbn_top_nav_controller.js
+ADD src/share.js /kibana/src/ui/public/share/directives/share.js
+ADD src/share.html /kibana/src/ui/public/share/views/share.html
+ADD src/for-theme.less /kibana/src/ui/public/styles/variables/for-theme.less
+ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
+#ADD src/index.less /kibana/kibana/public/dashboard/styles/index.less
 
 ADD src/logo_hack.txt /tmp/logo_hack.txt
 RUN cat /tmp/logo_hack.txt >> /kibana/src/ui/views/chrome.jade
