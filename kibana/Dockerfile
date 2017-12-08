@@ -61,7 +61,7 @@ RUN cd /kibana/plugins/kibana-swimlane-vis && sed "s#KIBANA_VERSION#$KIBANA_VERS
 ADD plugins/kibana-plugin-metric-percent /kibana/plugins/kibana-plugin-metric-percent
 RUN cd /kibana/plugins/kibana-plugin-metric-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/vega_vis-0.4.2--for-Kibana-5.6.4.zip /vega_vis.zip
+ADD plugins/vega_vis-0.5.0--for-Kibana-5.6.5.zip /vega_vis.zip
 RUN /kibana/bin/kibana-plugin install file:/vega_vis.zip
 
 ADD plugins/kibana_dropdown /kibana/plugins/kibana_dropdown
