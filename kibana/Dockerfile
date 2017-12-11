@@ -5,7 +5,7 @@ MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 RUN apt-get -y update
 RUN apt-get -y install vim npm git curl 
 
-ENV KIBANA_VERSION 5.6.5
+ENV KIBANA_VERSION 6.0.1
 
 RUN git clone https://github.com/elastic/kibana.git \
     && cd kibana \
@@ -22,23 +22,23 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc
 #RUN chmod a+x /mod-it.sh
 #run sh /mod-it.sh
 
-#in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.6.4
-ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
-ADD src/dashboard.html /kibana/src/core_plugins/kibana/public/dashboard/dashboard.html
-ADD src/editor.html /kibana/src/core_plugins/kibana/public/visualize/editor/editor.html
-ADD src/controls.js /kibana/src/ui/public/chrome/api/controls.js
-ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
-ADD src/ui_framework.css /kibana/ui_framework/dist/ui_framework.css
-ADD src/kbn_top_nav.html /kibana/src/ui/public/kbn_top_nav/kbn_top_nav.html
-ADD src/kbn_top_nav_controller.js /kibana/src/ui/public/kbn_top_nav/kbn_top_nav_controller.js
-ADD src/share.js /kibana/src/ui/public/share/directives/share.js
-ADD src/share.html /kibana/src/ui/public/share/views/share.html
-ADD src/for-theme.less /kibana/src/ui/public/styles/variables/for-theme.less
-ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
-#ADD src/index.less /kibana/kibana/public/dashboard/styles/index.less
-
-ADD src/logo_hack.txt /tmp/logo_hack.txt
-RUN cat /tmp/logo_hack.txt >> /kibana/src/ui/views/chrome.jade
+##in order to have search bar in embed mode, PR: https://github.com/elastic/kibana/pull/8947 - updated for 5.6.4
+#ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
+#ADD src/dashboard.html /kibana/src/core_plugins/kibana/public/dashboard/dashboard.html
+#ADD src/editor.html /kibana/src/core_plugins/kibana/public/visualize/editor/editor.html
+#ADD src/controls.js /kibana/src/ui/public/chrome/api/controls.js
+#ADD src/kbn_chrome.js /kibana/src/ui/public/chrome/directives/kbn_chrome.js
+#ADD src/ui_framework.css /kibana/ui_framework/dist/ui_framework.css
+#ADD src/kbn_top_nav.html /kibana/src/ui/public/kbn_top_nav/kbn_top_nav.html
+#ADD src/kbn_top_nav_controller.js /kibana/src/ui/public/kbn_top_nav/kbn_top_nav_controller.js
+#ADD src/share.js /kibana/src/ui/public/share/directives/share.js
+#ADD src/share.html /kibana/src/ui/public/share/views/share.html
+#ADD src/for-theme.less /kibana/src/ui/public/styles/variables/for-theme.less
+#ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
+##ADD src/index.less /kibana/kibana/public/dashboard/styles/index.less
+#
+#ADD src/logo_hack.txt /tmp/logo_hack.txt
+#RUN cat /tmp/logo_hack.txt >> /kibana/src/ui/views/chrome.jade
 
 RUN cd kibana \
     && npm install
@@ -61,8 +61,8 @@ RUN cd /kibana/plugins/kibana-swimlane-vis && sed "s#KIBANA_VERSION#$KIBANA_VERS
 ADD plugins/kibana-plugin-metric-percent /kibana/plugins/kibana-plugin-metric-percent
 RUN cd /kibana/plugins/kibana-plugin-metric-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/vega_vis-0.5.0--for-Kibana-5.6.5.zip /vega_vis.zip
-RUN /kibana/bin/kibana-plugin install file:/vega_vis.zip
+#ADD plugins/vega_vis-0.5.1--for-Kibana-6.0.1.zip /vega_vis.zip
+#RUN /kibana/bin/kibana-plugin install file:/vega_vis.zip
 
 ADD plugins/kibana_dropdown /kibana/plugins/kibana_dropdown
 RUN cd /kibana/plugins/kibana_dropdown && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
