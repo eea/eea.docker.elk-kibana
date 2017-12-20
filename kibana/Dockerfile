@@ -52,8 +52,8 @@ RUN cd /kibana/plugins/kibana-time-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSI
 ADD plugins/computed-columns /kibana/plugins/computed-columns
 RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/kbn_network /kibana/plugins/kbn_network
-RUN cd /kibana/plugins/kbn_network && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+ADD plugins/network_vis /kibana/plugins/network_vis
+RUN cd /kibana/plugins/network_vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ADD plugins/kibana-swimlane-vis /kibana/plugins/kibana-swimlane-vis
 RUN cd /kibana/plugins/kibana-swimlane-vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
@@ -75,6 +75,9 @@ RUN cd /kibana/plugins/enhanced_tilemap && sed "s#KIBANA_VERSION#$KIBANA_VERSION
 
 ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
 RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
+
+ADD plugins/ob-kb-percent /kibana/plugins/ob-kb-percent
+RUN cd /kibana/plugins/ob-kb-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 #ADD plugins/kibana-graph-plugin /kibana/plugins/kibana-graph-plugin
 #RUN cd /kibana/plugins/kibana-graph-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
