@@ -1,10 +1,16 @@
-// Create an Angular module for this plugin
-var module = require('ui/modules').get('ob-kb-percent');
+import { uiModules } from 'ui/modules';
+const module = uiModules.get('kibana/ob-kb-percent', ['kibana']);
+
+import { AggResponseTabifyProvider } from 'ui/agg_response/tabify/tabify';
+
+//var module = require('ui/modules').get('ob-kb-percent');
 var numeral = require('numeral');
+//import numeral from 'numeral';
+
 
 module.controller('PercentController', function($scope, Private) {
 
-    const tabifyAggResponse = Private(require('ui/agg_response/tabify/tabify'));
+    const tabifyAggResponse = Private(AggResponseTabifyProvider);
 
     $scope.getValueFromAggs = function (resp, tableGroups, type, params) {
     	if (type === 'total') {
@@ -45,12 +51,12 @@ module.controller('PercentController', function($scope, Private) {
 		var denominatorParams = $scope.vis.params.denominator;
 		var denominator = $scope.getValueFromAggs(resp, tabified, denominatorType, denominatorParams);
 
-		var ratio = numerator / denominator;		
-  	        if ($scope.vis.params.displayIncrement == true) { ratio = ratio - 1 };
+		var ratio = numerator / denominator;
+		if ($scope.vis.params.displayIncrement == true) { ratio = ratio - 1 };
 	        console.log("numerator = ", numerator);
-		console.log("numerator = ", numerator);
 		console.log("denominator = ", denominator);
 		$scope.ratio = numeral(ratio).format($scope.vis.params.format);
+        
       }
     });
   });
