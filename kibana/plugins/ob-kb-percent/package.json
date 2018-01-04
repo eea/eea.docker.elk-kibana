@@ -17,4 +17,4 @@
   "build": "plugin-helpers build",
   "postinstall": "plugin-helpers postinstall"
  }
-}                        
+}
