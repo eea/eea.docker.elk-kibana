@@ -18,6 +18,10 @@ RUN apt-get -y install nodejs
 RUN npm install bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
+ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
+ADD src/chrome.jade /kibana/src/ui/views/chrome.jade
+ADD src/ui_app.jade /kibana/src/ui/views/ui_app.jade
+
 RUN cd kibana \
     && npm install
 

@@ -21,6 +21,8 @@ echo "server.host: '0.0.0.0'" >> /kibana/config/kibana.yml
 #self signed certificate in elasticsearch
 echo "elasticsearch.ssl.verificationMode: none" >> /kibana/config/kibana.yml
 
+#echo "server.defaultRoute: /app" >> /kibana/config/kibana.yml
+
 if [ $ENABLE_SSL = "YES" ]
 then
   mkdir -p /var/ssl
