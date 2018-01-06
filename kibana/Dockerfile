@@ -21,7 +21,7 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc
 ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
 ADD src/chrome.jade /kibana/src/ui/views/chrome.jade
 ADD src/ui_app.jade /kibana/src/ui/views/ui_app.jade
-DD src/*.png /kibana/src/ui/public/assets/favicons/
+ADD src/*.png /kibana/src/ui/public/assets/favicons/
 ADD src/favicon.ico /kibana/src/ui/public/assets/favicons
 ADD src/safari-pinned-tab.svg /kibana/src/ui/public/assets/favicons
 
