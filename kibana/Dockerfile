@@ -22,8 +22,8 @@ ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
 ADD src/chrome.jade /kibana/src/ui/views/chrome.jade
 ADD src/ui_app.jade /kibana/src/ui/views/ui_app.jade
 ADD src/*.png /kibana/src/ui/public/assets/favicons/
-ADD src/favicon.ico /kibana/src/ui/public/assets/favicons
-ADD src/safari-pinned-tab.svg /kibana/src/ui/public/assets/favicons
+ADD src/favicon.ico /kibana/src/ui/public/assets/favicons/favicon.ico
+ADD src/safari-pinned-tab.svg /kibana/src/ui/public/assets/favicons/safari-pinned-tab.svg
 
 RUN cd kibana \
     && npm install
@@ -42,6 +42,9 @@ RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSI
 
 ADD plugins/ob-kb-percent /kibana/plugins/ob-kb-percent
 RUN cd /kibana/plugins/ob-kb-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+
+ADD plugins/computed-columns /kibana/plugins/computed-columns
+RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ENV PATH /kibana/bin:$PATH
 
