@@ -43,6 +43,9 @@ RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSI
 ADD plugins/ob-kb-percent /kibana/plugins/ob-kb-percent
 RUN cd /kibana/plugins/ob-kb-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
+ADD plugins/computed-columns /kibana/plugins/computed-columns
+RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+
 ENV PATH /kibana/bin:$PATH
 
 ADD docker-entrypoint.sh /
