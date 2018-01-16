@@ -18,30 +18,29 @@ function PercentProvider(Private) {
   return VisFactory.createAngularVisualization({
     name: 'obPercent',
     title: 'Percent View',
-    icon: 'fa-hand-lizard-o',
+    icon: 'fa-percent-o',
     description: 'Percent metric visualization.',
-    category: CATEGORY.OTHER,
-    
-    //visualization: VisController,
-
+    category: CATEGORY.DATA,
+    //responseHandler: 'none',
     visConfig: {
       defaults: {
-		format: '0.000%',
-		ratioFontSize: 60,
-		label: 'Percent :',
-    	labelFontSize: 40,
-      	labelPlacement: 'top',
-		displayIncrement: false,
-      	numeratorType : 'total',
-      	numerator : {
-      	nthBucket : 1,
-      	namedBucket : '',
-     	},
-		denominatorType : 'total',
-		denominator : {
-			nthBucket : 1,
-			namedBucket : ''
-		}
+  		  format: '0.00%',
+  		  ratioFontSize: 60,
+  		  label: 'Percent :',
+        labelFontSize: 40,
+        labelPlacement: 'top',
+  		  displayIncrement: false,
+        displayArrow: false,
+        numeratorType : 'total',
+        numerator : {
+          nthBucket : 1,
+          namedBucket : '',
+       	},
+  		  denominatorType : 'total',
+  		  denominator : {
+  			 nthBucket : 1,
+  			 namedBucket : ''
+  		  }
       },
       template: mainTemplate,
     },
@@ -49,24 +48,18 @@ function PercentProvider(Private) {
       optionsTemplate: optionsTemplate,
       schemas: new Schemas([{
         group: 'metrics',
-		name: 'tagsize',
-		title: 'Value',
-		min: 1,
-		max: 1
-		//,
-		//aggFilter: ['count', 'avg', 'sum', 'min', 'max', 'cardinality', 'std_dev'],
-        //defaults: [{
-        //  type: 'count',
-        //  schema: 'metric'
-        //}]
+		    name: 'tagsize',
+		    title: 'Value',
+		    min: 1,
+		    max: 1
       }, 
       {
         group: 'buckets',
-		name: 'tags',
-		title: 'Aggregation',
-		min: 1,
-		max: 1,
-		aggFilter: '!geohash_grid'
+    		name: 'tags',
+    		title: 'Aggregation',
+    		min: 1,
+    		max: 1,
+    		aggFilter: '!geohash_grid'
       }]),
     }
   });
