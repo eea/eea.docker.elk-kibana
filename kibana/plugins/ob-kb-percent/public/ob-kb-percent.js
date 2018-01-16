@@ -1,5 +1,5 @@
 import 'plugins/ob-kb-percent/ob-kb-percent-controller';
-import 'plugins/ob-kb-percent/ob-kb-percent.css';
+import 'plugins/ob-kb-percent/ob-kb-percent.less';
 
 import mainTemplate from 'plugins/ob-kb-percent/ob-kb-percent.html';
 import optionsTemplate from 'plugins/ob-kb-percent/ob-kb-percent-editor.html';
