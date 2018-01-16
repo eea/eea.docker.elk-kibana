@@ -1,6 +1,6 @@
 {
   "name": "computed-columns",
-  "version": "0.7.1",
+  "version": "0.7.1", 
   "description": "This visualization plugin is like a table, but with computed columns",
   "main": "index.js",
   "kibana": {
@@ -11,7 +11,7 @@
     "start": "plugin-helpers start",
     "test:server": "plugin-helpers test:server",
     "test:browser": "plugin-helpers test:browser",
-    "build": "plugin-helpers build",
+    "build": "plugin-helpers build", 
     "postinstall": "plugin-helpers postinstall"
   },
   "devDependencies": {
