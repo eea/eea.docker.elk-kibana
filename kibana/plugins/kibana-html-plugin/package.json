@@ -1,5 +1,5 @@
 {
 	"name": "kibana-html-plugin",
-	"description": "This is a Kibana 5 plugin which renders HTML in visualizations",
+	"description": "This is a Kibana plugin which renders HTML in visualizations",
 	"version": "KIBANA_VERSION"
 }

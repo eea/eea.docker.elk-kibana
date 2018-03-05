@@ -1,27 +1,43 @@
-  import 'plugins/kibana-html-plugin/html.less';
-  import 'plugins/kibana-html-plugin/htmlController';
-  import { VisVisTypeProvider } from 'ui/vis/vis_type';
-  import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
-  import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
+import 'plugins/kibana-html-plugin/html.less';
+import mainTemplate from 'plugins/kibana-html-plugin/html.html';
+import optionsTemplate from 'plugins/kibana-html-plugin/htmlOptions.html';
+import 'plugins/kibana-html-plugin/htmlController.js';
 
-  VisTypesRegistryProvider.register(HtmlVisProvider);
+import 'plugins/kibana-html-plugin/deps/ace-builds/ace.js';
+import 'plugins/kibana-html-plugin/deps/ace-builds/mode-html.js';
+import 'plugins/kibana-html-plugin/deps/ace-builds/theme-monokai.js';
+import 'plugins/kibana-html-plugin/deps/angular-ui-ace/ui-ace.min.js';
 
-  function HtmlVisProvider(Private) {
-    const VisType = Private(VisVisTypeProvider);
-    const TemplateVisType = Private(TemplateVisTypeProvider);
+import {CATEGORY} from 'ui/vis/vis_category';
+import {VisFactoryProvider} from 'ui/vis/vis_factory';
+import {VisTypesRegistryProvider} from 'ui/registry/vis_types';
+import {VisSchemasProvider} from 'ui/vis/editors/default/schemas';
+import { DefaultEditorSize } from 'ui/vis/editor_size';
 
-    return new TemplateVisType({
-      name: 'html',
-      title: 'Html widget',
-      icon: 'fa-code',
-      description: 'Useful for displaying html in dashboards.',
-      category: VisType.CATEGORY.OTHER,
-      template: require('plugins/kibana-html-plugin/html.html'),
-      params: {
-        editor: require('plugins/kibana-html-plugin/htmlOptions.html')
-      },
-      requiresSearch: false
-    });
-  }
+VisTypesRegistryProvider.register(HtmlVisProvider);
 
-export default HtmlVisProvider;
+function HtmlVisProvider(Private) {
+  const VisFactory = Private(VisFactoryProvider);
+
+  return VisFactory.createAngularVisualization({
+    name: 'html',
+    title: 'Html widget',
+    isAccessible: true,
+    icon: 'fa-code',
+    description: 'Useful for displaying html in dashboards.',
+    category: CATEGORY.OTHER,
+    visConfig: {
+      template: mainTemplate
+    },
+    editorConfig: {
+      optionsTemplate: optionsTemplate,
+      enableAutoApply: true,
+      defaultSize: DefaultEditorSize.LARGE
+    },
+    options: {
+      showTimePicker: false,
+    },
+    requestHandler: 'none',
+    responseHandler: 'none'
+  });
+}
