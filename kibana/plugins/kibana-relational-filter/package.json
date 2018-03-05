@@ -1,6 +1,0 @@
-{
-	"name": "relational_filter",
-	"version": "KIBANA_VERSION",
-        "description": "Visualization with the possibility to create filters based on relations between different documents" 
-}
-

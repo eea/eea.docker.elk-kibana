@@ -10,10 +10,10 @@ A Kibana visualization plugin that allows arbitrary query results to be processe
    * [An example with Pre-processing](#an-example-with-pre-processing)
 * [Debugging](#debugging)
 
-Installation for Kibana 5.3.0:
+Installation for Kibana 6.2.2:
 
 ```
-bin/kibana-plugin install https://github.com/PhaedrusTheGreek/transform_vis/releases/download/5.3.0-2/transform_vis-5.3.0-2.zip
+bin/kibana-plugin install https://github.com/PhaedrusTheGreek/transform_vis/releases/download/6.2.2/transform_vis-6.2.2.zip
 ```
 
 
@@ -38,7 +38,9 @@ From the Javascript object, they're available via `this`, e.g., `this.response`
 
 ## Support for Javascript
 
-By default, no unsafe HTML (such as `<script> tags`) will be allowed, as processed by Angular's [$sanitize](https://docs.angularjs.org/api/ngSanitize/service/$sanitize) , but Javascript processing can be achieved by acknowledging the client-side security risk in `kibana.yml` with `transform_vis.allow_unsafe: true`.   When enabled, a "Javscript" box appears that allows you to create a special object that will be merged with the query's response object under the field name `meta`.
+By default, no unsafe HTML (such as `<style>` tags) will be allowed, as processed by Angular's [$sanitize](https://docs.angularjs.org/api/ngSanitize/service/$sanitize) , but Javascript processing can be achieved by acknowledging the client-side security risk in `kibana.yml` with `transform_vis.allow_unsafe: true`.   When enabled, a "Javscript" box appears that allows you to create a special object that will be merged with the query's response object under the field name `meta`.  
+
+`<script>` tags will not be evaluated.  
 
 Any Javascript given will be executed by the web browser, however in order to be merged with the query response object for processing by Mustache, you must prepare an Object, enclosed by parentheses like this:
 
@@ -56,6 +58,37 @@ Named functions can then be called by mustache, like:
 ```
 <hr>{{meta.count_hits}} total hits<hr>
 ```
+
+Functions called by mustache are executed before the actual render on the page, so no DOM manipulation can be done.   As of Version 6.2.2, the `before_render` and `after_render` lifecycle hooks will be called automatically.   The former can be used for any pre-processing that might be required before rendering, and the latter should be used for anything that expects the HTML to be rendered. e.g.:
+
+Javascript:
+```
+({
+  after_render: function() {
+
+    var sampleSVG = d3.select("#viz")
+        .append("svg")
+        .attr("width", 100)
+        .attr("height", 100);    
+
+    sampleSVG.append("circle") 
+        .style("stroke", "gray") 
+        .style("fill", "white")
+        .attr("r", 40)
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+        .on("mouseout", function(){d3.select(this).style("fill", "white");});
+  }
+}) 
+```
+
+Template:
+```
+<div id="viz"> </div>
+```
+
+Find a more detailed D3 recipe in [the examples cookbook](https://github.com/PhaedrusTheGreek/transform_vis/blob/master/RECIPES.md#custom-d3)
 
 ## Support for CSS
 
