@@ -1,2 +1,0 @@
-link(rel="stylesheet", type="text/css", href="https://cdn.rawgit.com/eea/eea.docker.elk-kibana/bb700da7/kibana/src/kibana-welcome.css")
-script(src="https://cdn.rawgit.com/eea/eea.docker.elk-kibana/bb700da7/kibana/src/hackFavicon.js")
