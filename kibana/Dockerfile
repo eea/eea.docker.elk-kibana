@@ -42,6 +42,9 @@ RUN cd /kibana/plugins/kibana-plugin-metric-percent && sed "s#KIBANA_VERSION#$KI
 ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
 RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
+ADD plugins/kibana-enhanced-table /kibana/plugins/kibana-enhanced-table
+RUN cd /kibana/plugins/kibana-enhanced-table && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+
 ENV PATH /kibana/bin:$PATH
 
 ADD docker-entrypoint.sh /
