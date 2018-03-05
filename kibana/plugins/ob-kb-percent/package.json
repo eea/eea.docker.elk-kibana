@@ -1,4 +1,4 @@
-{ 
+{  
  "name": "ob-kb-percent",
  "version": "KIBANA_VERSION",
  "devDependencies": {
