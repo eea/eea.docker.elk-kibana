@@ -3,7 +3,17 @@ FROM ubuntu:16.04
 MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
 RUN apt-get -y update
-RUN apt-get -y install vim npm git curl 
+RUN apt-get -y install npm git curl vim
+
+RUN npm install -g n
+
+#RUN curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
+#RUN bash nodesource_setup.sh
+#RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+#RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+#RUN apt-get -y update
+#RUN apt-get -y install nodejs yarn
 
 ENV KIBANA_VERSION 6.2.2
 
@@ -11,12 +21,7 @@ RUN git clone https://github.com/elastic/kibana.git \
     && cd kibana \
     && git checkout v$KIBANA_VERSION
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
-RUN bash nodesource_setup.sh
-RUN apt-get -y install nodejs
-
-RUN npm install bower
-RUN echo '{ "allow_root": true }' > /root/.bowerrc
+RUN cd kibana && n "$(cat .node-version)"
 
 RUN sed "s#Loading Kibana##g" -i /kibana/src/core_plugins/kibana/translations/en.json
 RUN sed "s#title Kibana#title EEA#g" -i /kibana/src/ui/ui_render/views/chrome.jade
@@ -28,10 +33,11 @@ ADD src/*.ico /kibana/src/ui/public/assets/favicons
 ADD src/*.svg /kibana/src/ui/public/assets/favicons
 
 RUN cd kibana \
-    && npm install
+     && npm install
+#    && npm run build
 
-RUN npm install -g bower
-RUN echo '{ "allow_root": true }' > /root/.bowerrc
+#RUN npm install bower
+#RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
 #ADD plugins/kibana-time-plugin /kibana/plugins/kibana-time-plugin
 #RUN cd /kibana/plugins/kibana-time-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install --force-latest && npm install
