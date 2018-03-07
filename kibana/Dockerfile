@@ -18,12 +18,14 @@ RUN apt-get -y install nodejs
 RUN npm install bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
-ADD src/en.json /kibana/src/core_plugins/kibana/translations/en.json
-ADD src/chrome.jade /kibana/src/ui/ui_render/views/chrome.jade
+RUN sed "s#Loading Kibana##g" -i /kibana/src/core_plugins/kibana/translations/en.json
+RUN sed "s#title Kibana#title EEA#g" -i /kibana/src/ui/ui_render/views/chrome.jade
+
 ADD src/ui_app.jade /kibana/src/ui/ui_render/views/ui_app.jade
+
 ADD src/*.png /kibana/src/ui/public/assets/favicons/
-ADD src/favicon.ico /kibana/src/ui/public/assets/favicons
-ADD src/safari-pinned-tab.svg /kibana/src/ui/public/assets/favicons
+ADD src/*.ico /kibana/src/ui/public/assets/favicons
+ADD src/*.svg /kibana/src/ui/public/assets/favicons
 
 RUN cd kibana \
     && npm install
@@ -31,29 +33,26 @@ RUN cd kibana \
 RUN npm install -g bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
-ADD plugins/kibana-time-plugin /kibana/plugins/kibana-time-plugin
-RUN cd /kibana/plugins/kibana-time-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install --force-latest && npm install
+#ADD plugins/kibana-time-plugin /kibana/plugins/kibana-time-plugin
+#RUN cd /kibana/plugins/kibana-time-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install --force-latest && npm install
 
-ADD plugins/computed-columns /kibana/plugins/computed-columns
-RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/computed-columns /kibana/plugins/computed-columns
+#RUN cd /kibana/plugins/computed-columns && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/kbn_network /kibana/plugins/kbn_network
-RUN cd /kibana/plugins/kbn_network && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/kbn_network /kibana/plugins/kbn_network
+#RUN cd /kibana/plugins/kbn_network && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/kibana-swimlane-vis /kibana/plugins/kibana-swimlane-vis
-RUN cd /kibana/plugins/kibana-swimlane-vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/kibana-swimlane-vis /kibana/plugins/kibana-swimlane-vis
+#RUN cd /kibana/plugins/kibana-swimlane-vis && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-#ADD plugins/kibana-plugin-metric-percent /kibana/plugins/kibana-plugin-metric-percent
-#RUN cd /kibana/plugins/kibana-plugin-metric-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
+#RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
 
-ADD plugins/kibana-html-plugin /kibana/plugins/kibana-html-plugin
-RUN cd /kibana/plugins/kibana-html-plugin && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && bower install && npm install
+#ADD plugins/kibana-enhanced-table /kibana/plugins/kibana-enhanced-table
+#RUN cd /kibana/plugins/kibana-enhanced-table && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
-ADD plugins/kibana-enhanced-table /kibana/plugins/kibana-enhanced-table
-RUN cd /kibana/plugins/kibana-enhanced-table && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
-
-ADD plugins/ob-kb-percent /kibana/plugins/ob-kb-percent
-RUN cd /kibana/plugins/ob-kb-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
+#ADD plugins/ob-kb-percent /kibana/plugins/ob-kb-percent
+#RUN cd /kibana/plugins/ob-kb-percent && sed "s#KIBANA_VERSION#$KIBANA_VERSION#g" -i ./package.json && npm install
 
 ENV PATH /kibana/bin:$PATH
 
