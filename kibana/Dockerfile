@@ -1,9 +1,10 @@
-FROM ubuntu:16.04
+FROM centos:7
 
 MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
-RUN apt-get -y update
-RUN apt-get -y install npm git curl vim
+RUN yum -y install epel-release
+RUN yum -y update
+RUN yum -y install npm git curl vim nodejs
 
 RUN npm install -g n
 
@@ -29,6 +30,8 @@ RUN npm install
 RUN npm run build --skip-os-packages --force
 
 RUN mv /kibana-dev/build/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
+RUN cp /opt/kibana/config/kibana.yml /opt/kibana.yml
+
 RUN rm -rf /kibana-dev
 
 ENV PATH /opt/kibana/bin:$PATH

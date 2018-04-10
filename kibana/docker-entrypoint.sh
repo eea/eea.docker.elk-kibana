@@ -6,6 +6,8 @@ if [[ "$1" == -* ]]; then
 	set -- kibana "$@"
 fi
 
+cp /opt/kibana.yml /opt/kibana/config/kibana.yml
+
 echo "elasticsearch.url: 'https://elasticsearch:9200'" >> /opt/kibana/config/kibana.yml
 echo "server.host: '0.0.0.0'" >> /opt/kibana/config/kibana.yml
 
