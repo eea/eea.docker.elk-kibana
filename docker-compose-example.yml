@@ -1,52 +1,107 @@
-#version: '2'
+version: '2'
 
-#services:
+services:
   elasticsearch:
-    image: eeacms/elk-elasticsearch
+    image: eeacms/elk-elasticsearch:6.2.2
+    cap_add:
+      - IPC_LOCK
+    restart: always
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - 9200:9200
     volumes:
-      - elasticsearchData:/usr/share/elasticsearch/data
-      - /backups:/backups
-
+      - elasticsearchDataDevMaster1:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 2g
     environment:
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-      LOGSTASH_RW_USERNAME: changeme
-      LOGSTASH_RW_PASSWORD: changeme
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - node.master=true
+      - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+      - "ELASTICSEARCH_MASTER=YES"
 
-      #must match below!
-      KIBANA_RW_USERNAME: changeme
-      KIBANA_RW_PASSWORD: changeme
-      ENABLE_SSL: changeme
+      - SERVERNAME=changeme
+      - CHECKHEALTH=127.0.0.1
+      #pls, must match below!
+      - "LOGSTASH_RW_USERNAME=changeme"
+      - "LOGSTASH_RW_PASSWORD=changeme"
+      - "KIBANA_RW_USERNAME=changeme"
+      - "KIBANA_RW_PASSWORD=changeme"
+
       #in case you don't want public read only access, uncommend and set
-      #KIBANA_RO_USERNAME: changeme
-      #KIBANA_RO_PASSWORD: changeme
+      #KIBANA_RO_USERNAME: "changeme"
+      #KIBANA_RO_PASSWORD: "changeme"
+    networks:
+      - esnet
 
-  logstash:
-    image: logstash
+  elasticsearch_slave_1:
+    image: eeacms/elk-elasticsearch:6.2.2
+    cap_add:
+      - IPC_LOCK
+    restart: always
     volumes:
-      - logstashConfig:/etc/logstash/conf.d
-      - /backups:/backups
-    ports:
-      - "5001:5000"
-    links:
-      - elasticsearch:elasticsearch
+      - elasticsearchDataDevSlave1:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 2g
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - node.master=false
+      - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+      - "ELASTICSEARCH_MASTER=elasticsearch"
+    networks:
+      - esnet
 
   kibana:
-    image: eeacms/elk-kibana
+    image: eeacms/elk-kibana:6.2.2
+    restart: always
     ports:
-      - "5601:5601"
+      - "443:5601"
     volumes:
       - /backups:/backups
       - /etc/pki/tls/certs/server.crt:/ssl/server.crt:ro
       - /etc/pki/tls/private/server.key:/ssl/server.key:ro
-      #enable server-chain.key for selfsigned certificated only!
-      #- /etc/pki/tls/private/server-chain.key:/ssl/server-chain.key:ro
-    links:
-      - elasticsearch:elasticsearch
+      - /etc/localtime:/etc/localtime:ro
     environment:
-      #must match above!
-      KIBANA_RW_USERNAME: changeme
-      KIBANA_RW_PASSWORD: changeme
+      #pls, must match above!
+      KIBANA_RW_USERNAME: "changeme"
+      KIBANA_RW_PASSWORD: "changeme"
+      SERVERHOST: "0.0.0.0"
+      SERVERNAME: "changeme"
+      SERVERPORT: "5601"
       ENABLE_SSL: "YES"
+    networks:
+      - esnet
+    depends_on:
+      - "elasticsearch"
+
+  sysctl:
+    network_mode: none
+    image: rawmind/alpine-sysctl:0.1
+    privileged: true
+    environment:
+      - "SYSCTL_KEY=vm.max_map_count"
+      - "SYSCTL_VALUE=262144"
+
+volumes:
+  elasticsearchDataDevMaster1:
+    driver: local
+  elasticsearchDataDevSlave1:
+    driver: local
+  configurationKibana:
+    driver: local
+
+networks:
+  esnet:
+    driver: bridge
