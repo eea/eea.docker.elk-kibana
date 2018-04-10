@@ -30,6 +30,9 @@ RUN npm install
 RUN npm run build --skip-os-packages --force
 
 RUN mv /kibana-dev/build/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
+
+RUN sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json
+
 RUN cp /opt/kibana/config/kibana.yml /opt/kibana.yml
 
 RUN rm -rf /kibana-dev
