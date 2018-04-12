@@ -14,17 +14,17 @@ RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
     && git checkout v$KIBANA_VERSION
 
-RUN sed "s#Loading Kibana##g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json
-RUN sed "s#title Kibana#title EEA#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
+RUN sed "s#Loading Kibana#Loading Inpire#g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json
+RUN sed "s#title Kibana#title INSPIRE#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
 
-ADD src/eea/ui_app.jade /tmp/ui_app.jade
+ADD src/inspire/ui_app.jade /tmp/ui_app.jade
 
 RUN sed -i -e '/\.kibanaWelcomeLogo {/{r /tmp/ui_app.jade' -e 'd}'   /kibana-dev/src/ui/ui_render/views/ui_app.jade \
  && rm /tmp/ui_app.jade
 
-ADD src/eea/*.png /kibana-dev/src/ui/public/assets/favicons/
-ADD src/eea/*.ico /kibana-dev/src/ui/public/assets/favicons
-ADD src/eea/*.svg /kibana-dev/src/ui/public/assets/favicons
+ADD src/inspire/*.png /kibana-dev/src/ui/public/assets/favicons/
+ADD src/inspire/*.ico /kibana-dev/src/ui/public/assets/favicons
+ADD src/inspire/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)"
