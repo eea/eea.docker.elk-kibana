@@ -17,7 +17,7 @@ RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
 RUN sed "s#Loading Kibana##g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json
 RUN sed "s#title Kibana#title EEA#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
 
-ADD src/ui_app.jade /tmp/ui_app.jade
+ADD src/eea_ui_app.jade /tmp/ui_app.jade
 
 RUN sed -i -e '/\.kibanaWelcomeLogo {/{r /tmp/ui_app.jade' -e 'd}'   /kibana-dev/src/ui/ui_render/views/ui_app.jade \
  && rm /tmp/ui_app.jade
