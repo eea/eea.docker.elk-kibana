@@ -17,14 +17,14 @@ RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
 RUN sed "s#Loading Kibana#Loading Inpire#g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json
 RUN sed "s#title Kibana#title INSPIRE#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
 
-ADD ../src/inspire/ui_app.jade /tmp/ui_app.jade
+ADD src/ui_app.jade /tmp/ui_app.jade
 
 RUN sed -i -e '/\.kibanaWelcomeLogo {/{r /tmp/ui_app.jade' -e 'd}'   /kibana-dev/src/ui/ui_render/views/ui_app.jade \
  && rm /tmp/ui_app.jade
 
-ADD ../src/inspire/*.png /kibana-dev/src/ui/public/assets/favicons/
-ADD ../src/inspire/*.ico /kibana-dev/src/ui/public/assets/favicons
-ADD ../src/inspire/*.svg /kibana-dev/src/ui/public/assets/favicons
+ADD src/*.png /kibana-dev/src/ui/public/assets/favicons/
+ADD src/*.ico /kibana-dev/src/ui/public/assets/favicons
+ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)"
