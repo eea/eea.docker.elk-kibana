@@ -8,7 +8,7 @@ RUN yum -y install npm git curl vim nodejs
 
 RUN npm install -g n
 
-ENV KIBANA_VERSION 6.2.3
+ENV KIBANA_VERSION 6.2.4
 
 RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
