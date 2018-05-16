@@ -16,14 +16,14 @@ SERVER_HOST=${SERVER_HOST:-'0.0.0.0'}
 echo "elasticsearch.url: '$ELASTICSEARCH_URL'" >> /opt/kibana/config/kibana.yml
 echo "server.host: '$SERVER_HOST'" >> /opt/kibana/config/kibana.yml
 
-# if [ -z "$KIBANA_RW_USERNAME" ]           
-# then
+if [ -z "$KIBANA_RW_USERNAME" ]           
+then
   echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /opt/kibana/config/kibana.yml
   echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /opt/kibana/config/kibana.yml
 
   sed "s#KIBANA_RW_USERNAME#$KIBANA_RW_USERNAME#g" -i /opt/kibana/config/kibana.yml
   sed "s#KIBANA_RW_PASSWORD#$KIBANA_RW_PASSWORD#g" -i /opt/kibana/config/kibana.yml
-# fi
+fi
 
 #self signed certificate in elasticsearch
 echo "elasticsearch.ssl.verificationMode: none" >> /opt/kibana/config/kibana.yml
