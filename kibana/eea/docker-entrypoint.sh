@@ -16,7 +16,7 @@ SERVER_HOST=${SERVER_HOST:-'0.0.0.0'}
 echo "elasticsearch.url: '$ELASTICSEARCH_URL'" >> /opt/kibana/config/kibana.yml
 echo "server.host: '$SERVER_HOST'" >> /opt/kibana/config/kibana.yml
 
-if [ -z "$KIBANA_RW_USERNAME" ]           
+if [ -n "$KIBANA_RW_USERNAME" ]           
 then
   echo "elasticsearch.username: \"KIBANA_RW_USERNAME\"" >> /opt/kibana/config/kibana.yml
   echo "elasticsearch.password: \"KIBANA_RW_PASSWORD\"" >> /opt/kibana/config/kibana.yml
