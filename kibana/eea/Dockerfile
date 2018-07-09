@@ -6,6 +6,10 @@ RUN yum -y install epel-release
 RUN yum -y update
 RUN yum -y install npm git curl vim nodejs
 
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+
+RUN yum -y install yarn-1.6.0
+
 RUN npm install -g n
 
 ENV KIBANA_VERSION 6.3.0
@@ -28,9 +32,11 @@ ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)"
-RUN npm install
 
-RUN npm run build --skip-os-packages --force
+
+RUN yarn kbn bootstrap
+
+RUN yarn build --skip-os-packages
 
 RUN mv /kibana-dev/build/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
 
