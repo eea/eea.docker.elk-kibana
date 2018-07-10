@@ -4,7 +4,7 @@ MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
 RUN yum -y install epel-release
 RUN yum -y update
-RUN yum -y install npm git curl vim nodejs java-1.8.0-openjdk-headless
+RUN yum -y install npm git curl vim nodejs zip
 
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
 
