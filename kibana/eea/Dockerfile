@@ -38,7 +38,7 @@ RUN yarn kbn bootstrap
 
 RUN yarn build --skip-os-packages
 
-RUN mv /kibana-dev/build/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
+RUN mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
 
 RUN sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json
 

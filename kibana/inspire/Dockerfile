@@ -4,7 +4,10 @@ MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
 RUN yum -y install epel-release
 RUN yum -y update
-RUN yum -y install npm git curl vim nodejs
+RUN yum -y install npm git curl vim nodejs zip
+
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+RUN yum -y install yarn-1.6.0
 
 RUN npm install -g n
 
@@ -28,11 +31,11 @@ ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)"
-RUN npm install
+RUN yarn kbn bootstrap
 
-RUN npm run build --skip-os-packages --force
+RUN yarn build --skip-os-packages
 
-RUN mv /kibana-dev/build/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
+RUN mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
 
 RUN sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json
 
