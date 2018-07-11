@@ -1,6 +1,4 @@
-FROM centos:7
-
-MAINTAINER michimau <mauro.michielon@eea.europa.eu>
+FROM centos:7 AS build
 
 RUN yum -y install epel-release
 RUN yum -y update
@@ -15,10 +13,9 @@ ENV KIBANA_VERSION 6.3.0
 
 RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
-    && git checkout v$KIBANA_VERSION
-
-RUN sed "s#Loading Kibana#Loading Inpire#g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json
-RUN sed "s#title Kibana#title INSPIRE#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
+    && git checkout v$KIBANA_VERSION \
+    && sed "s#Loading Kibana#Loading Inpire#g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json \
+    && sed "s#title Kibana#title INSPIRE#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
 
 ADD src/ui_app.jade /tmp/ui_app.jade
 
@@ -30,23 +27,29 @@ ADD src/*.ico /kibana-dev/src/ui/public/assets/favicons
 ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
-RUN n "$(cat .node-version)"
-RUN yarn kbn bootstrap
+RUN n "$(cat .node-version)" \
+ && yarn kbn bootstrap \
+ && yarn build --skip-os-packages \
+ && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \
+ && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json \
+ && cp /opt/kibana/config/kibana.yml /opt/kibana.yml
 
-RUN yarn build --skip-os-packages
 
-RUN mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana
 
-RUN sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json
 
-RUN cp /opt/kibana/config/kibana.yml /opt/kibana.yml
+FROM centos:7
 
-RUN rm -rf /kibana-dev
+MAINTAINER michimau <mauro.michielon@eea.europa.eu>
+
+RUN yum update -y && yum install -y fontconfig freetype && yum clean all
+
+COPY --from=build /opt/kibana /opt/kibana 
 
 ENV PATH /opt/kibana/bin:$PATH
 
 ADD docker-entrypoint.sh /
 RUN chmod a+x /docker-entrypoint.sh
+
 
 EXPOSE 5601
 ENTRYPOINT ["/docker-entrypoint.sh"]

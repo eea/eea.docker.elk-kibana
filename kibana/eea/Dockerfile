@@ -27,7 +27,7 @@ RUN yum -y install epel-release \
   && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json \
   && cp /opt/kibana/config/kibana.yml /opt/kibana.yml \
   && rm -rf /kibana-dev \
-  && yum remove epel-release npm nodejs zip yarn \
+  && yum remove -y epel-release npm nodejs zip yarn \
   && yum install -y fontconfig freetype \
   && yum clean all
 
