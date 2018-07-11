@@ -31,8 +31,7 @@ RUN n "$(cat .node-version)" \
  && yarn kbn bootstrap \
  && yarn build --skip-os-packages \
  && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \
- && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json \
- && cp /opt/kibana/config/kibana.yml /opt/kibana.yml
+ && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json 
 
 
 FROM centos:7
