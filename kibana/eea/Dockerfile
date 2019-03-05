@@ -14,7 +14,7 @@ ENV KIBANA_VERSION 6.6.1
 RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
     && git checkout v$KIBANA_VERSION \
-    && sed "s#Loading Kibana##g" -i  /kibana-dev/src/ui/ui_render/views/ui_app.pug \
+    && sed "s#Loading Kibana# #g" -i  /kibana-dev/src/ui/ui_render/views/ui_app.pug \
     && sed "s#title Kibana#title EEA#g" -i /kibana-dev/src/ui/ui_render/views/chrome.pug
 
 ADD src/ui_app.jade /tmp/ui_app.jade
@@ -29,6 +29,7 @@ ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)" \
  && echo "network-timeout 600000" >> .yarnrc \
+#remove this on next release
  && sed -i "s/FORCE_DLL_CREATION: 'true'/FORCE_DLL_CREATION: 'true', NODE_OPTIONS: '--max-old-space-size=2048'/"    src/dev/build/tasks/optimize_task.js \
  && yarn kbn bootstrap \
  && yarn build --skip-os-packages \

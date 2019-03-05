@@ -5,21 +5,21 @@ RUN yum -y update
 RUN yum -y install npm git curl vim nodejs zip
 
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN yum -y install yarn-1.6.0
+RUN yum -y install yarn-1.10.1
 
 RUN npm install -g n
 
-ENV KIBANA_VERSION 6.3.1
+ENV KIBANA_VERSION 6.6.1
 
 RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
     && git checkout v$KIBANA_VERSION \
-    && sed "s#Loading Kibana#Loading Inpire#g" -i /kibana-dev/src/core_plugins/kibana/translations/en.json \
-    && sed "s#title Kibana#title INSPIRE#g" -i /kibana-dev/src/ui/ui_render/views/chrome.jade
+    && sed "s#Loading Kibana#Loading Inpire#g" -i  /kibana-dev/src/ui/ui_render/views/ui_app.pug \
+    && sed "s#title Kibana#title INSPIRE#g" -i /kibana-dev/src/ui/ui_render/views/chrome.pug
 
 ADD src/ui_app.jade /tmp/ui_app.jade
 
-RUN sed -i -e '/\.kibanaWelcomeLogo {/{r /tmp/ui_app.jade' -e 'd}'   /kibana-dev/src/ui/ui_render/views/ui_app.jade \
+RUN sed -i -e '/\.kibanaWelcomeLogo {/{r /tmp/ui_app.jade' -e 'd}' /kibana-dev/src/ui/ui_render/views/ui_app.pug \
  && rm /tmp/ui_app.jade
 
 ADD src/*.png /kibana-dev/src/ui/public/assets/favicons/
@@ -28,6 +28,9 @@ ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)" \
+ && echo "network-timeout 600000" >> .yarnrc \
+#remove this on next release
+ && sed -i "s/FORCE_DLL_CREATION: 'true'/FORCE_DLL_CREATION: 'true', NODE_OPTIONS: '--max-old-space-size=2048'/"    src/dev/build/tasks/optimize_task.js \
  && yarn kbn bootstrap \
  && yarn build --skip-os-packages \
  && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \

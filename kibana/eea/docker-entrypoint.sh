@@ -11,7 +11,7 @@ ELASTICSEARCH_URL=${ELASTICSEARCH_URL:-'https://elasticsearch:9200'}
 SERVER_HOST=${SERVER_HOST:-'0.0.0.0'}
 
 
-echo "elasticsearch.url: '$ELASTICSEARCH_URL'" >> /opt/kibana/config/kibana.yml
+echo "elasticsearch.hosts: '$ELASTICSEARCH_URL'" >> /opt/kibana/config/kibana.yml
 echo "server.host: '$SERVER_HOST'" >> /opt/kibana/config/kibana.yml
 
 if [ -n "$KIBANA_RW_USERNAME" ]           
