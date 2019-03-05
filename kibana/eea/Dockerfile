@@ -28,6 +28,7 @@ ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)" \
+ && echo "network-timeout 600000" >> .yarnrc \
  && yarn kbn bootstrap \
  && yarn build --skip-os-packages \
  && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \
