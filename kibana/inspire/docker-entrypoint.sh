@@ -41,10 +41,10 @@ then
   echo "server.ssl.key: /var/ssl/server.key" >> /opt/kibana/config/kibana.yml
   echo "server.ssl.certificate: /var/ssl/server.crt" >> /opt/kibana/config/kibana.yml
 
-  if [ -f /ssl/server-chain.crt ]; then
-    cat /ssl/server-chain.crt > /var/ssl/server-chain.crt
-    echo 'server.ssl.certificate_authorities: "/var/ssl/server-chain.crt"' >> /opt/kibana/config/kibana.yml
-  fi
+#  if [ -f /ssl/server-chain.crt ]; then
+#    cat /ssl/server-chain.crt > /var/ssl/server-chain.crt
+#    echo 'server.ssl.certificate_authorities: "/var/ssl/server-chain.crt"' >> /opt/kibana/config/kibana.yml
+#  fi
 
   chmod 400 /var/ssl/*
 
