@@ -9,7 +9,7 @@ RUN yum -y install yarn-1.10.1
 
 RUN npm install -g n
 
-ENV KIBANA_VERSION 6.6.1
+ENV KIBANA_VERSION 6.8.3
 
 RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
