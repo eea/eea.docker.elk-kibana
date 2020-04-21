@@ -9,7 +9,7 @@ RUN yum -y install yarn-1.10.1
 
 RUN npm install -g n
 
-ENV KIBANA_VERSION 6.8.3
+ENV KIBANA_VERSION 6.8.8
 
 RUN git clone https://github.com/elastic/kibana.git /kibana-dev \
     && cd /kibana-dev \
@@ -32,7 +32,7 @@ RUN n "$(cat .node-version)" \
 #remove this on next release
  && sed -i "s/FORCE_DLL_CREATION: 'true'/FORCE_DLL_CREATION: 'true', NODE_OPTIONS: '--max-old-space-size=2048'/"    src/dev/build/tasks/optimize_task.js \
  && yarn kbn bootstrap \
- && yarn build --skip-os-packages \
+# && yarn build --skip-os-packages \
  && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \
  && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json 
 
