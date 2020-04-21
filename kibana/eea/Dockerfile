@@ -33,7 +33,6 @@ RUN n "$(cat .node-version)" \
  && sed -i "s/FORCE_DLL_CREATION: 'true'/FORCE_DLL_CREATION: 'true', NODE_OPTIONS: '--max-old-space-size=2048'/"    src/dev/build/tasks/optimize_task.js \
  && yarn kbn bootstrap \
  && yarn build \
-# && yarn build --skip-os-packages \
  && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \
  && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json 
 
