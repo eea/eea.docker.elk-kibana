@@ -5,7 +5,7 @@ RUN yum -y update
 RUN yum -y install npm git curl vim nodejs zip
 
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN yum -y install yarn-1.10.1 
+RUN yum -y install yarn-1.21.1 
 
 RUN npm install -g n
 
