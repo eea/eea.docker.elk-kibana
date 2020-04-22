@@ -28,12 +28,14 @@ ADD src/*.svg /kibana-dev/src/ui/public/assets/favicons
 
 WORKDIR /kibana-dev
 RUN n "$(cat .node-version)" \
- && echo "network-timeout 600000" >> .yarnrc \
+ && echo "network-timeout 1200000" >> .yarnrc \
 #remove this on next release
  && sed -i "s/FORCE_DLL_CREATION: 'true'/FORCE_DLL_CREATION: 'true', NODE_OPTIONS: '--max-old-space-size=2048'/"    src/dev/build/tasks/optimize_task.js \
  && yarn kbn bootstrap \
  && yarn upgrade caniuse-lite browserslist \
- && yarn build \
+ && yarn build 
+ 
+RUN ls /kibana-dev/build/* \
  && mv /kibana-dev/build/oss/kibana-$KIBANA_VERSION-SNAPSHOT-linux-x86_64 /opt/kibana \
  && sed "s#-SNAPSHOT##g" -i /opt/kibana/package.json 
 
