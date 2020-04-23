@@ -1,5 +1,4 @@
 FROM docker.elastic.co/kibana/kibana:6.8.8
-
 MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
 USER root
