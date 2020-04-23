@@ -19,4 +19,4 @@ USER kibana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["/opt/kibana/bin/kibana"]
+CMD ["/usr/local/bin/kibana-docker"]
