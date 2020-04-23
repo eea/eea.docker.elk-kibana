@@ -5,7 +5,7 @@ USER root
 ADD docker-entrypoint.sh /
 RUN chmod a+x /docker-entrypoint.sh
 
-
+USER kibana
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/opt/kibana/bin/kibana"]
