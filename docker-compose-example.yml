@@ -2,7 +2,7 @@ version: '2'
 
 services:
   elasticsearch:
-    image: eeacms/elk-elasticsearch:6.2.2
+    image: eeacms/elk-elasticsearch:6.8
     cap_add:
       - IPC_LOCK
     restart: always
@@ -40,7 +40,7 @@ services:
       - esnet
 
   elasticsearch_slave_1:
-    image: eeacms/elk-elasticsearch:6.2.2
+    image: eeacms/elk-elasticsearch:6.8
     cap_add:
       - IPC_LOCK
     restart: always
@@ -64,7 +64,7 @@ services:
       - esnet
 
   kibana:
-    image: eeacms/elk-kibana:6.2.2
+    image: eeacms/elk-kibana:6.8
     restart: always
     ports:
       - "443:5601"
@@ -77,7 +77,6 @@ services:
       #pls, must match above!
       KIBANA_RW_USERNAME: "changeme"
       KIBANA_RW_PASSWORD: "changeme"
-      SERVERHOST: "0.0.0.0"
       ELASTICSEARCH_URL: "https://elasticsearch:9200"
       ENABLE_SSL: "YES"
     networks:
