@@ -5,7 +5,7 @@ USER root
 ADD docker-entrypoint.sh /
 RUN chmod a+x /docker-entrypoint.sh
 
-ADD src/iframe_custom_style.js /tmp/iframe_custom_style.js
+ADD src/iframe_custom_styles.js /tmp/iframe_custom_styles.js
 ADD src/ui_app.jade /tmp/ui_app.jade
 ADD src/*.png /opt/kibana/src/ui/public/assets/favicons/
 ADD src/*.ico /opt/kibana/src/ui/public/assets/favicons/
