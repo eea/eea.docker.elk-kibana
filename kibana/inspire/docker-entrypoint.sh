@@ -33,9 +33,9 @@ fi
 
 file=/usr/share/kibana/src/core/server/rendering/views/template.js
 
-sed "s#Loading Elastic#European Environment Agency#g" -i $file
+sed "s#Loading Elastic#Inspire Dashboard#g" -i $file
 
-sed 's#"Elastic"#"EEA"#g' -i $file
+sed 's#"Elastic"#"Inspire"#g' -i $file
 
 const_logo=$(sed -n '/const logo/=' $file)
 tail -n +$const_logo $file > template_tail_tmp
