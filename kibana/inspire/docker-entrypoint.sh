@@ -30,4 +30,25 @@ then
   chmod 400 /var/ssl/*
 
 fi
+
+file=/usr/share/kibana/src/core/server/rendering/views/template.js
+
+sed "s#Loading Elastic#European Environment Agency#g" -i $file
+
+sed 's#"Elastic"#"EEA"#g' -i $file
+
+const_logo=$(sed -n '/const logo/=' $file)
+tail -n +$const_logo $file > template_tail_tmp
+
+const_logo=$(($const_logo-1))
+head -n +$const_logo $file > template_head
+
+comma=$(sed -n '/;/=' template_tail_tmp | head -n 1)
+comma=$(($comma+1))
+tail -n +$comma template_tail_tmp > template_tail
+
+cat template_head > $file
+echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.8.1/kibana/inspire/src/app.ico',width:'80px'});" >> $file
+cat template_tail >> $file
+
 exec "$@"
