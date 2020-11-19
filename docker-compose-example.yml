@@ -2,7 +2,7 @@ version: '2'
 
 services:
   elasticsearch:
-    image: eeacms/elk-elasticsearch:6.8
+    image: eeacms/elk-elasticsearch:6.8.13
     cap_add:
       - IPC_LOCK
     restart: always
@@ -40,7 +40,7 @@ services:
       - esnet
 
   elasticsearch_slave_1:
-    image: eeacms/elk-elasticsearch:6.8
+    image: eeacms/elk-elasticsearch:6.8.13
     cap_add:
       - IPC_LOCK
     restart: always
@@ -64,7 +64,7 @@ services:
       - esnet
 
   kibana:
-    image: eeacms/elk-kibana:6.8
+    image: eeacms/elk-kibana:6.8.13
     restart: always
     ports:
       - "443:5601"
