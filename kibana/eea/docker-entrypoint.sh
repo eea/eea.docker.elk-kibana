@@ -59,10 +59,10 @@ if [[ ${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$el
 
   #setting variables used in configuration, using default values
   anon_password=$(openssl rand -base64 12)
-  ANON_PASSWORD=${ANON_PASSWORD:-$anon_password}
+  ANON_PASSWORD="${ANON_PASSWORD:-$anon_password}"
   read_only_role_json='{"elasticsearch":{"cluster":["monitor"],"indices":[{"names":["*"],"privileges":["read","view_index_metadata"]},{"names":[".kibana"],"privileges":["read","view_index_metadata"],"field_security":{"grant":["*"]}}],"run_as":[]},"kibana":[{"spaces":["*"],"base":["read"],"feature":{}}]}'
-  READ_ONLY_ROLE_JSON=${READ_ONLY_ROLE_JSON:-$read_only_role_json}
-
+  READ_ONLY_ROLE_JSON="${READ_ONLY_ROLE_JSON:-$read_only_role_json}"
+  
   echo "Adding anonimous access to kibana.yml"
 
   echo "
