@@ -86,7 +86,7 @@ xpack.security.authc.providers:
   
   if  [ $( curl -I -s -uelastic:$elastic_password  localhost:5601/api/security/role/read_only | grep -ic "200 OK" ) -eq 0 ]; then
      echo "Setting default read_only role"
-     curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' localhost:9200/_security/role/read_only -d"$READ_ONLY_ROLE_JSON"
+     curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' localhost:5601/api/security/role/read_only -d"$READ_ONLY_ROLE_JSON"
   fi
 
   echo "Setting default anonymous_service_account user"
