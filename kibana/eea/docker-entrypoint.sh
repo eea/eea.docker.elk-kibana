@@ -65,7 +65,8 @@ xpack.security.authc.providers:
     icon: \"globe\"
     credentials: 
       username: \"anonymous_service_account\"
-      password: "${ANON_PASSWORD}"
+      password: \"${ANON_PASSWORD}\"
 " >> kibana.yml
+fi
 
 exec "$@"
