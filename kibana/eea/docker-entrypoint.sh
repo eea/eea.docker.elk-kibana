@@ -64,7 +64,6 @@ if [[ ${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$el
   READ_ONLY_ROLE_JSON="${READ_ONLY_ROLE_JSON:-$read_only_role_json}"
   
   echo "Adding anonimous access to kibana.yml"
-
   echo "
 xpack.security.authc.providers:
   basic.basic1:
@@ -79,7 +78,7 @@ xpack.security.authc.providers:
       password: \"${ANON_PASSWORD}\"
 " >> kibana.yml
 
-  $@ &
+  "$@" &
 
   #wait for the kibana user interface to be up
   while [ $( curl -I -s  -uelastic:$elastic_password  localhost:5601/internal/security/users/elastic | grep -c 200 )  -eq 0 ]; do sleep 10; done
@@ -91,7 +90,7 @@ xpack.security.authc.providers:
   fi
 
   echo "Setting default anonymous_service_account user"
-  curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' localhost:9200/internal/security/users/anonymous_service_account -d"{\"password\":\"$ANON_PASSWORD\",\"username\":\"anonymous_service_account\",\"full_name\":\"\",\"email\":\"\",\"roles\":[\"read_only\"]}"
+  curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' localhost:5601/internal/security/users/anonymous_service_account -d"{\"password\":\"$ANON_PASSWORD\",\"username\":\"anonymous_service_account\",\"full_name\":\"\",\"email\":\"\",\"roles\":[\"read_only\"]}"
   touch /tmp/users_created 
 
   wait 
