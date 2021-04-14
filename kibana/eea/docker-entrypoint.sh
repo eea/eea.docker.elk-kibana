@@ -55,7 +55,7 @@ echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githu
 cat template_tail >> $file
 
 #password enabled and anonimous access enabled
-if [[ ${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
+if [[ "${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
 
   #setting variables used in configuration, using default values
   anon_password=$(openssl rand -base64 12)
@@ -76,7 +76,7 @@ xpack.security.authc.providers:
     credentials: 
       username: \"anonymous_service_account\"
       password: \"${ANON_PASSWORD}\"
-" >> kibana.yml
+" >> config/kibana.yml
 
   "$@" &
 
