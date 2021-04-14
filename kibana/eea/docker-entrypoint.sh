@@ -55,7 +55,13 @@ echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githu
 cat template_tail >> $file
 
 #password enabled and anonimous access enabled
-if [ -n "$ELASTICSEARCH_PASSWORD" ] && [[ ${ALLOW_ANON_RO}" == "true" ]] && [ -n "${ANON_PASSWORD}" ] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
+if [[ ${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
+
+  #setting variables used in configuration, using default values
+  anon_password=$(openssl rand -base64 12)
+  ANON_PASSWORD=${ANON_PASSWORD:-$anon_password}
+  read_only_role_json='{"elasticsearch":{"cluster":["monitor"],"indices":[{"names":["*"],"privileges":["read","view_index_metadata"]},{"names":[".kibana"],"privileges":["read","view_index_metadata"],"field_security":{"grant":["*"]}}],"run_as":[]},"kibana":[{"spaces":["*"],"base":["read"],"feature":{}}]}'
+  READ_ONLY_ROLE_JSON=${READ_ONLY_ROLE_JSON:-$read_only_role_json}
 
   echo "Adding anonimous access to kibana.yml"
 
@@ -78,19 +84,14 @@ xpack.security.authc.providers:
   #wait for the kibana user interface to be up
   while [ $( curl -I -s  -uelastic:$elastic_password  localhost:5601/internal/security/users/elastic | grep -c 200 )  -eq 0 ]; do sleep 10; done
 
-  read_only_role_json='{"elasticsearch":{"cluster":["monitor"],"indices":[{"names":["*"],"privileges":["read","view_index_metadata"]},{"names":[".kibana"],"privileges":["read","view_index_metadata"],"field_security":{"grant":["*"]}}],"run_as":[]},"kibana":[{"spaces":["*"],"base":["read"],"feature":{}}]}'
-  READ_ONLY_ROLE_JSON=${READ_ONLY_ROLE_JSON:-$read_only_role_json}
-
+  
   if  [ $( curl -I -s -uelastic:$elastic_password  localhost:5601/api/security/role/read_only | grep -ic "200 OK" ) -eq 0 ]; then
      echo "Setting default read_only role"
-     curl  -uelastic:$elastic_password -X POST -H 'Content-Type: application/json' localhost:9200/_security/role/read_only -d"$READ_ONLY_ROLE_JSON"
+     curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' localhost:9200/_security/role/read_only -d"$READ_ONLY_ROLE_JSON"
   fi
 
-  if  [ $( curl -I -s -uelastic:$elastic_password  localhost:5601/internal/security/users/anonymous_service_account | grep -ic "200 OK" ) -eq 0 ]; then
-    echo "Setting default anonymous_service_account user"
-    curl  -uelastic:$elastic_password -X POST -H 'Content-Type: application/json' localhost:9200/internal/security/users/anonymous_service_account -d"{\"password\":\"$ANON_PASSWORD\",\"username\":\"anonymous_service_account\",\"full_name\":\"\",\"email\":\"\",\"roles\":[\"read_only\"]}"
-  fi
-
+  echo "Setting default anonymous_service_account user"
+  curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' localhost:9200/internal/security/users/anonymous_service_account -d"{\"password\":\"$ANON_PASSWORD\",\"username\":\"anonymous_service_account\",\"full_name\":\"\",\"email\":\"\",\"roles\":[\"read_only\"]}"
   touch /tmp/users_created 
 
   wait 
