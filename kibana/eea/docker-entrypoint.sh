@@ -52,5 +52,20 @@ cat template_head > $file
 echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.8.1/kibana/eea/src/app.ico',width:'80px'});" >> $file
 cat template_tail >> $file
 
+#password enabled and anonimous access enabled
+if [ -n "$ELASTICSEARCH_PASSWORD" ] && [[ ${ALLOW_ANON_RO}" == "true" ]] && [ -n "${ANON_PASSWORD}" ]; then
+echo "
+xpack.security.authc.providers:
+  basic.basic1:
+    order: 0
+    description: \"Log in to have edit rights\"
+  anonymous.anonymous1:
+    order: 1
+    description: \"Continue as guest\"
+    icon: \"globe\"
+    credentials: 
+      username: \"anonymous_service_account\"
+      password: "${ANON_PASSWORD}"
+" >> kibana.yml
 
 exec "$@"
