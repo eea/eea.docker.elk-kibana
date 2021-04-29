@@ -1,4 +1,4 @@
-FROM docker.elastic.co/kibana/kibana:7.12.0
+FROM docker.elastic.co/kibana/kibana:7.12.1
 MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
 USER root
@@ -13,3 +13,4 @@ USER kibana
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/usr/local/bin/kibana-docker"]
+
