@@ -64,6 +64,15 @@ if [[ "${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$e
   READ_ONLY_ROLE_JSON="${READ_ONLY_ROLE_JSON:-$read_only_role_json}"
   
   echo "Adding anonimous access to kibana.yml"
+  
+  if [ $(grep xpack.security.authc.providers config/kibana.yml | wc -l) -ne 0 ]; then
+  
+  line=$(grep -n xpack.security.authc.providers config/kibana.yml | awk -F: '{print $1}')
+  end_line=$(( $line + 11 ))
+  sed -i "${line},${end_line}d" config/kibana.yml
+  
+  fi
+  
   echo "
 xpack.security.authc.providers:
   basic.basic1:
@@ -80,6 +89,10 @@ xpack.security.authc.providers:
 
   "$@" &
 
+  #wait for elasticsearch user/password to be ok
+  while [ $( curl -I -s  -uelastic:$elastic_password  $ELASTICSEARCH_HOSTS  | grep -c 200 )  -eq 0 ]; do sleep 10; done
+  echo "Elasticsearch is up, superuser elastic password is working"
+  
   #wait for the kibana user interface to be up
   while [ $( curl -I -s  -uelastic:$elastic_password  localhost:5601/internal/security/users/elastic | grep -c 200 )  -eq 0 ]; do sleep 10; done
 
