@@ -87,11 +87,13 @@ xpack.security.authc.providers:
       password: \"${ANON_PASSWORD}\"
 " >> config/kibana.yml
 
-  "$@" &
 
   #wait for elasticsearch user/password to be ok
   while [ $( curl -I -s  -uelastic:$elastic_password  $ELASTICSEARCH_HOSTS  | grep -c 200 )  -eq 0 ]; do sleep 10; done
   echo "Elasticsearch is up, superuser elastic password is working"
+  
+  #start kibana
+  "$@" &
   
   #wait for the kibana user interface to be up
   while [ $( curl -I -s  -uelastic:$elastic_password  localhost:5601/internal/security/users/elastic | grep -c 200 )  -eq 0 ]; do sleep 10; done
