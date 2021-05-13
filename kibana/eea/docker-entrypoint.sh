@@ -12,6 +12,7 @@ export ELASTICSEARCH_SSL_VERIFICATIONMONDE=${ELASTICSEARCH_SSL_VERIFICATIONMONDE
 
 if [ -n "$KIBANA_AUTOCOMPLETETIMEOUT" ]; then
   if [ $(grep kibana.autocompleteTimeout config/kibana.yml | wc -l) -eq 0 ]; then
+       echo "" >> config/kibana.yml
        echo "kibana.autocompleteTimeout: $KIBANA_AUTOCOMPLETETIMEOUT" >> config/kibana.yml
   else
        sed -i "s/kibana.autocompleteTimeout: .*/kibana.autocompleteTimeout: $KIBANA_AUTOCOMPLETETIMEOUT/" config/kibana.yml
@@ -19,7 +20,8 @@ if [ -n "$KIBANA_AUTOCOMPLETETIMEOUT" ]; then
 fi
 
 if [ -n "$KIBANA_AUTOCOMPLETETERMINATEAFTER" ]; then
-  if [ $(grep kibana.autocompleteTerminateAfter config/kibana.yml | wc -l) -eq 0 ]; then
+  if [ $(grep kibana.autocompleteTerminateAfter config/kibana.yml | wc -l) -eq 0 ]; then      
+       echo "" >> config/kibana.yml
        echo "kibana.autocompleteTerminateAfter: $KIBANA_AUTOCOMPLETETERMINATEAFTER" >> config/kibana.yml
   else
        sed -i "s/kibana.autocompleteTerminateAfter: .*/kibana.autocompleteTerminateAfter: $KIBANA_AUTOCOMPLETETERMINATEAFTER/" config/kibana.yml
