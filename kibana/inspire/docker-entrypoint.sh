@@ -10,6 +10,26 @@ export ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-$KIBANA_RW_PASSWORD}
 
 export ELASTICSEARCH_SSL_VERIFICATIONMONDE=${ELASTICSEARCH_SSL_VERIFICATIONMONDE:-none}
 
+if [ -n "$KIBANA_AUTOCOMPLETETIMEOUT" ]; then
+  if [ $(grep kibana.autocompleteTimeout config/kibana.yml | wc -l) -eq 0 ]; then
+       echo "" >> config/kibana.yml
+       echo "kibana.autocompleteTimeout: $KIBANA_AUTOCOMPLETETIMEOUT" >> config/kibana.yml
+  else
+       sed -i "s/kibana.autocompleteTimeout: .*/kibana.autocompleteTimeout: $KIBANA_AUTOCOMPLETETIMEOUT/" config/kibana.yml
+  fi
+fi
+
+if [ -n "$KIBANA_AUTOCOMPLETETERMINATEAFTER" ]; then
+  if [ $(grep kibana.autocompleteTerminateAfter config/kibana.yml | wc -l) -eq 0 ]; then      
+       echo "" >> config/kibana.yml
+       echo "kibana.autocompleteTerminateAfter: $KIBANA_AUTOCOMPLETETERMINATEAFTER" >> config/kibana.yml
+  else
+       sed -i "s/kibana.autocompleteTerminateAfter: .*/kibana.autocompleteTerminateAfter: $KIBANA_AUTOCOMPLETETERMINATEAFTER/" config/kibana.yml
+  fi
+fi
+
+
+
 if [[ "$ENABLE_SSL" == "YES" ]] || [[ "$SERVER_SSL_ENABLED" == "true" ]]
 then
   export SERVER_SSL_ENABLED='true'
@@ -52,16 +72,26 @@ cat template_head > $file
 echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.8.1/kibana/inspire/src/app.ico',width:'80px'});" >> $file
 cat template_tail >> $file
 
+
 #password enabled and anonimous access enabled
 if [[ "${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
 
   #setting variables used in configuration, using default values
   anon_password=$(openssl rand -base64 12)
   ANON_PASSWORD="${ANON_PASSWORD:-$anon_password}"
-  read_only_role_json='{"elasticsearch":{"cluster":["monitor"],"indices":[{"names":["*"],"privileges":["read","view_index_metadata"]},{"names":[".kibana"],"privileges":["read","view_index_metadata"],"field_security":{"grant":["*"]}}],"run_as":[]},"kibana":[{"spaces":["*"],"base":["read"],"feature":{}}]}'
+  read_only_role_json='{"elasticsearch":{"cluster":[],"indices":[{"names":["*"],"privileges":["read"],"allow_restricted_indices":false}],"run_as":[]},"kibana":[{"base":[],"feature":{"dashboard":["read"]},"spaces":["*"]}]}'
   READ_ONLY_ROLE_JSON="${READ_ONLY_ROLE_JSON:-$read_only_role_json}"
 
   echo "Adding anonimous access to kibana.yml"
+
+  if [ $(grep xpack.security.authc.providers config/kibana.yml | wc -l) -ne 0 ]; then
+
+  line=$(grep -n xpack.security.authc.providers config/kibana.yml | awk -F: '{print $1}')
+  end_line=$(( $line + 11 ))
+  sed -i "${line},${end_line}d" config/kibana.yml
+
+  fi
+
   echo "
 xpack.security.authc.providers:
   basic.basic1:
@@ -76,6 +106,12 @@ xpack.security.authc.providers:
       password: \"${ANON_PASSWORD}\"
 " >> config/kibana.yml
 
+
+  #wait for elasticsearch user/password to be ok
+  while [ $( curl -I -s  -uelastic:$elastic_password  $ELASTICSEARCH_HOSTS  | grep -c 200 )  -eq 0 ]; do sleep 10; done
+  echo "Elasticsearch is up, superuser elastic password is working"
+
+  #start kibana
   "$@" &
 
   #wait for the kibana user interface to be up
@@ -98,4 +134,3 @@ else
   exec "$@"
 
 fi
-
