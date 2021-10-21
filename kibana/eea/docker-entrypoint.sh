@@ -57,6 +57,9 @@ sed "s#Loading Elastic#European Environment Agency#g" -i $file
 
 sed 's#"Elastic"#"EEA"#g' -i $file
 
+
+file=/usr/share/kibana/src/core/server/rendering/views/logo.js
+
 const_logo=$(sed -n '/const logo/=' $file)
 tail -n +$const_logo $file > template_tail_tmp
 
