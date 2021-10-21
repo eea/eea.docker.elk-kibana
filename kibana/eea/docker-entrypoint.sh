@@ -60,7 +60,7 @@ sed 's#"Elastic"#"EEA"#g' -i $file
 
 file=/usr/share/kibana/src/core/server/rendering/views/logo.js
 
-const_logo=$(sed -n '/const logo/=' $file)
+const_logo=$(sed -n '/const Logo/=' $file)
 tail -n +$const_logo $file > template_tail_tmp
 
 const_logo=$(($const_logo-1))
@@ -71,7 +71,7 @@ comma=$(($comma+1))
 tail -n +$comma template_tail_tmp > template_tail
 
 cat template_head > $file
-echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.8.1/kibana/eea/src/app.ico',width:'80px'});" >> $file
+echo "const Logo = () => /*#__PURE__*/_react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.8.1/kibana/eea/src/app.ico',width:'80px'});" >> $file
 cat template_tail >> $file
 
 #password enabled and anonimous access enabled
