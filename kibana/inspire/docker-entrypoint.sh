@@ -4,9 +4,9 @@ set -e
 
 export ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS:-$ELASTICSEARCH_URL}
 export ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS:-'http://elastic:9200'}
-export ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-$KIBANA_RW_USERNAME}
+export ELASTICSEARCH_USERNAME="${ELASTICSEARCH_USERNAME:-$KIBANA_RW_USERNAME}"
 export ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-'kibana_system'}
-export ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-$KIBANA_RW_PASSWORD}
+export ELASTICSEARCH_PASSWORD="${ELASTICSEARCH_PASSWORD:-$KIBANA_RW_PASSWORD}"
 
 export ELASTICSEARCH_SSL_VERIFICATIONMONDE=${ELASTICSEARCH_SSL_VERIFICATIONMONDE:-none}
 
@@ -27,7 +27,6 @@ if [ -n "$KIBANA_AUTOCOMPLETETERMINATEAFTER" ]; then
        sed -i "s/kibana.autocompleteTerminateAfter: .*/kibana.autocompleteTerminateAfter: $KIBANA_AUTOCOMPLETETERMINATEAFTER/" config/kibana.yml
   fi
 fi
-
 
 
 if [[ "$ENABLE_SSL" == "YES" ]] || [[ "$SERVER_SSL_ENABLED" == "true" ]]
@@ -58,7 +57,10 @@ sed "s#Loading Elastic#Inspire Dashboard#g" -i $file
 
 sed 's#"Elastic"#"Inspire"#g' -i $file
 
-const_logo=$(sed -n '/const logo/=' $file)
+
+file=/usr/share/kibana/src/core/server/rendering/views/logo.js
+
+const_logo=$(sed -n '/const Logo/=' $file)
 tail -n +$const_logo $file > template_tail_tmp
 
 const_logo=$(($const_logo-1))
@@ -69,29 +71,28 @@ comma=$(($comma+1))
 tail -n +$comma template_tail_tmp > template_tail
 
 cat template_head > $file
-echo "const logo = _react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.8.1/kibana/inspire/src/app.ico',width:'80px'});" >> $file
+echo "const Logo = () => /*#__PURE__*/_react.default.createElement(\"img\", {src:'https://raw.githubusercontent.com/eea/eea.docker.elk-kibana/7.15.1/kibana/inspire/src/app.ico',width:'80px'});" >> $file
 cat template_tail >> $file
-
 
 #password enabled and anonimous access enabled
 if [[ "${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
 
   #setting variables used in configuration, using default values
-  anon_password=$(openssl rand -base64 12)
+  anon_password=$(date +%s | sha256sum | base64 | head -c 12)
   ANON_PASSWORD="${ANON_PASSWORD:-$anon_password}"
   read_only_role_json='{"elasticsearch":{"cluster":[],"indices":[{"names":["*"],"privileges":["read"],"allow_restricted_indices":false}],"run_as":[]},"kibana":[{"base":[],"feature":{"dashboard":["read"]},"spaces":["*"]}]}'
   READ_ONLY_ROLE_JSON="${READ_ONLY_ROLE_JSON:-$read_only_role_json}"
-
+  
   echo "Adding anonimous access to kibana.yml"
-
+  
   if [ $(grep xpack.security.authc.providers config/kibana.yml | wc -l) -ne 0 ]; then
-
+  
   line=$(grep -n xpack.security.authc.providers config/kibana.yml | awk -F: '{print $1}')
   end_line=$(( $line + 11 ))
   sed -i "${line},${end_line}d" config/kibana.yml
-
+  
   fi
-
+  
   echo "
 xpack.security.authc.providers:
   basic.basic1:
@@ -101,7 +102,7 @@ xpack.security.authc.providers:
     order: 1
     description: \"Continue as guest\"
     icon: \"globe\"
-    credentials:
+    credentials: 
       username: \"anonymous_service_account\"
       password: \"${ANON_PASSWORD}\"
 " >> config/kibana.yml
@@ -110,14 +111,14 @@ xpack.security.authc.providers:
   #wait for elasticsearch user/password to be ok
   while [ $( curl -I -s  -uelastic:$elastic_password  $ELASTICSEARCH_HOSTS  | grep -c 200 )  -eq 0 ]; do sleep 10; done
   echo "Elasticsearch is up, superuser elastic password is working"
-
+  
   #start kibana
   "$@" &
-
+  
   #wait for the kibana user interface to be up
   while [ $( curl -I -s  -uelastic:$elastic_password  localhost:5601/internal/security/users/elastic | grep -c 200 )  -eq 0 ]; do sleep 10; done
 
-
+  
   if  [ $( curl -I -s -uelastic:$elastic_password  localhost:5601/api/security/role/read_only | grep -ic "200 OK" ) -eq 0 ]; then
      echo "Setting default read_only role"
      curl  -uelastic:$elastic_password -X PUT -H 'Content-Type: application/json' -H "kbn-xsrf: reporting" localhost:5601/api/security/role/read_only -d"$READ_ONLY_ROLE_JSON"
@@ -125,9 +126,9 @@ xpack.security.authc.providers:
 
   echo "Setting default anonymous_service_account user"
   curl  -uelastic:$elastic_password -X POST -H 'Content-Type: application/json'   -H "kbn-xsrf: reporting" localhost:5601/internal/security/users/anonymous_service_account -d"{\"password\":\"$ANON_PASSWORD\",\"username\":\"anonymous_service_account\",\"full_name\":\"\",\"email\":\"\",\"roles\":[\"read_only\"]}"
-  touch /tmp/users_created
+  touch /tmp/users_created 
 
-  wait
+  wait 
 
 else
 
