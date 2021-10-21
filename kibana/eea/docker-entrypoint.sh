@@ -78,7 +78,7 @@ cat template_tail >> $file
 if [[ "${ALLOW_ANON_RO}" == "true" ]] && [ ! -f /tmp/users_created ] && [ -n "$elastic_password" ]; then
 
   #setting variables used in configuration, using default values
-  anon_password=$(openssl rand -base64 12)
+  anon_password=$(date +%s | sha256sum | base64 | head -c 12)
   ANON_PASSWORD="${ANON_PASSWORD:-$anon_password}"
   read_only_role_json='{"elasticsearch":{"cluster":[],"indices":[{"names":["*"],"privileges":["read"],"allow_restricted_indices":false}],"run_as":[]},"kibana":[{"base":[],"feature":{"dashboard":["read"]},"spaces":["*"]}]}'
   READ_ONLY_ROLE_JSON="${READ_ONLY_ROLE_JSON:-$read_only_role_json}"
