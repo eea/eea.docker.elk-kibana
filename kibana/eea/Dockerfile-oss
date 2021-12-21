@@ -1,4 +1,4 @@
-FROM docker.elastic.co/kibana/kibana-oss:6.8.8
+FROM docker.elastic.co/kibana/kibana-oss:6.8.22
 MAINTAINER michimau <mauro.michielon@eea.europa.eu>
 
 USER root
