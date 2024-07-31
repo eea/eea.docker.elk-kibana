@@ -1,5 +1,5 @@
-FROM docker.elastic.co/kibana/kibana:7.16.2
-MAINTAINER michimau <mauro.michielon@eea.europa.eu>
+FROM docker.elastic.co/kibana/kibana:7.17.23
+LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 
 USER root
 ADD docker-entrypoint.sh /
