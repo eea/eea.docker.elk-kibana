@@ -1,4 +1,4 @@
-FROM docker.elastic.co/kibana/kibana:7.17.28
+FROM docker.elastic.co/kibana/kibana:7.17.29
 LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 
 USER root
